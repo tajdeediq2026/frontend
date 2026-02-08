@@ -1,16 +1,44 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+//import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+
 import "./globals.css";
+import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+import Navigation from "@/components/Navigation";
+import Up from "@/components/Up";
+import BreakingNews from "@/components/BreakingNews";
+
+const inter = localFont({
+  src: [
+    {
+      path: "../app/fonts/ArbFONTS-Al-Jazeera-Arabic-Bold.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    // {
+    //   path: "../public/fonts/Inter-Bold.woff2",
+    //   weight: "700",
+    //   style: "normal",
+    // },
+  ],
+  variable: "--font-inter", // Optional: Use in Tailwind
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistSans = localFont({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
+
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,11 +51,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
+    <html lang="ar" dir="rtl">
+      {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      > */}
+      <body className={inter.className}>
+        <Up />
+        <Navigation />
+        <BreakingNews />
+
+        {/* <OtherCategories /> */}
+        {/* <MainPictures /> */}
         {children}
+        <Footer />
       </body>
     </html>
   );
