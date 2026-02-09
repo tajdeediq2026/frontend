@@ -16,17 +16,9 @@ const nextConfig: NextConfig = {
     ],
     unoptimized: false,
   },
-  // Turbopack configuration (for --turbopack flag)
-  experimental: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
+  // SVG handling is configured via webpack below
+  // Empty turbopack config to allow build with Turbopack (Next.js 16 default)
+  turbopack: {},
   // Exclude certain folders from being compiled
   webpack: (config, { dev, isServer }) => {
     // Only apply webpack config when not using turbopack
@@ -39,10 +31,14 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiBase || !/^https?:\/\//.test(apiBase)) {
+      return [];
+    }
     return [
       {
         source: '/api/backend/:path*',
-        destination: process.env.NEXT_PUBLIC_API_URL + '/api/:path*',
+        destination: `${apiBase}/api/:path*`,
       },
     ];
   },
