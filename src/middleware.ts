@@ -15,7 +15,6 @@ export async function middleware(request: NextRequest) {
         
         // Create a simple fetch request to get article data
         const response = await fetch(`${apiUrl}/api/Articles/${articleId}`, {
-          // Add headers for development HTTPS
           headers: {
             'Content-Type': 'application/json',
           },
@@ -67,8 +66,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Match article routes but exclude API routes and static files
+    // Only match old article routes - do NOT intercept all routes
     '/article/:path*',
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };
