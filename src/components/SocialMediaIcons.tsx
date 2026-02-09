@@ -24,8 +24,8 @@ function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }:
     const fetchSocialMedias = async () => {
       try {
         setLoading(true);
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
-        const response = await fetch(`${apiUrl}/api/SocialMedia`);
+        // Use Next.js rewrite proxy to avoid CORS in the browser
+        const response = await fetch('/api/backend/SocialMedia');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,7 +33,6 @@ function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }:
         
         const data = await response.json();
         console.log('Social media data fetched:', data);
-        console.log('API URL used:', apiUrl);
         
         // Filter only activated social media
         const activeSocialMedias = data.filter((sm: SocialMedia) => sm.isActivated);

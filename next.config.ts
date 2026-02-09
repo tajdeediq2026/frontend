@@ -40,6 +40,10 @@ const nextConfig: NextConfig = {
         source: '/api/backend/:path*',
         destination: `${apiBase}/api/:path*`,
       },
+      {
+        source: '/uploads/:path*',
+        destination: `${apiBase}/uploads/:path*`,
+      },
     ];
   },
   // Enable CORS for development

@@ -1,8 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
 import { AllArticles, AllCategories } from '../types/Articles';
 
-// Update BASE_URL to match your backend - remove /api from here
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
+// On the server, call the backend directly. In the browser, use the Next.js rewrite proxy to avoid CORS.
+const BASE_URL = typeof window === 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com')
+  : '';  // Empty string = relative URL, uses Next.js rewrites
+
+// Helper: returns the correct API path depending on server vs browser
+const apiPath = (path: string): string => {
+  // On server: use /api/... directly (backend URL is the baseURL)
+  // On browser: use /api/backend/... (Next.js rewrites proxy it to backend)
+  if (typeof window === 'undefined') return path;
+  return path.replace(/^\/api\//, '/api/backend/');
+};
 
 // Create a dedicated axios instance with proper configuration
 const createAxiosInstance = (): AxiosInstance => {
@@ -60,7 +70,7 @@ apiClient.interceptors.response.use(
 export const getArticles = async (): Promise<AllArticles[]> => {
     try {
         console.log('Fetching articles from API...');
-        const response = await apiClient.get('/api/Articles');
+        const response = await apiClient.get(apiPath('/api/Articles'));
         console.log(`Successfully fetched ${response.data.length} articles`);
         return response.data;
     } catch (error) {
@@ -86,7 +96,7 @@ export const getArticles = async (): Promise<AllArticles[]> => {
 export const getCategories = async (): Promise<AllCategories[]> => {
     try {
         console.log('Fetching categories from API...');
-        const response = await apiClient.get('/api/Categories');
+        const response = await apiClient.get(apiPath('/api/Categories'));
         console.log(`Successfully fetched ${response.data.length} categories`);
         return response.data;
     } catch (error) {
@@ -114,7 +124,7 @@ export const categoriesApi = {
   getAll: () => getCategories(),
   getById: async (id: number): Promise<AllCategories | undefined> => {
     try {
-      const response = await apiClient.get(`/api/Categories/${id}`);
+      const response = await apiClient.get(apiPath(`/api/Categories/${id}`));
       return response.data;
     } catch (error) {
       console.error('Error fetching category:', error);
@@ -131,7 +141,7 @@ export const articlesApi = {
   getAll: () => getArticles(),
   getById: async (id: string): Promise<AllArticles> => {
     try {
-      const response = await apiClient.get(`/api/Articles/${id}`);
+      const response = await apiClient.get(apiPath(`/api/Articles/${id}`));
       return response.data;
     } catch (error) {
       console.error('Error fetching article:', error);
@@ -143,7 +153,7 @@ export const articlesApi = {
   },
   getByCategory: async (categoryId: number): Promise<AllArticles[]> => {
     try {
-      const response = await apiClient.get(`/api/Articles/category/${categoryId}`);
+      const response = await apiClient.get(apiPath(`/api/Articles/category/${categoryId}`));
       return response.data;
     } catch (error) {
       console.error('Error fetching articles by category:', error);
@@ -160,7 +170,7 @@ export const socialMediaApi = {
   getAll: async () => {
     try {
       console.log('Fetching social media links from API...');
-      const response = await apiClient.get('/api/SocialMedia');
+      const response = await apiClient.get(apiPath('/api/SocialMedia'));
       console.log(`Successfully fetched ${response.data.length} social media links`);
       return response.data;
     } catch (error) {
@@ -173,7 +183,7 @@ export const socialMediaApi = {
   },
   getById: async (id: number) => {
     try {
-      const response = await apiClient.get(`/api/SocialMedia/${id}`);
+      const response = await apiClient.get(apiPath(`/api/SocialMedia/${id}`));
       return response.data;
     } catch (error) {
       console.error('Error fetching social media link:', error);
