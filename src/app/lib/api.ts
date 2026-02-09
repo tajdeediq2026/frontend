@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import https from 'https';
 import { AllArticles, AllCategories } from '../types/Articles';
 
 // Update BASE_URL to match your backend - remove /api from here
@@ -7,22 +6,34 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1
 
 // Create a dedicated axios instance with proper configuration
 const createAxiosInstance = (): AxiosInstance => {
-  const httpsAgent = new https.Agent({
-    rejectUnauthorized: false // Only for development with self-signed certificates
-  });
-
-  return axios.create({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const config: any = {
     baseURL: BASE_URL,
     timeout: 30000, // Increased timeout to 30 seconds
-    httpsAgent,
     headers: {
       'Content-Type': 'application/json',
     },
     // Add retry configuration
-    validateStatus: (status) => {
+    validateStatus: (status: number) => {
       return status >= 200 && status < 300;
     }
-  });
+  };
+
+  // Only use https.Agent on the server (Node.js), not in the browser
+  if (typeof window === 'undefined') {
+    try {
+      // Dynamic import for server-side only
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const https = require('https');
+      config.httpsAgent = new https.Agent({
+        rejectUnauthorized: false // Only for development with self-signed certificates
+      });
+    } catch {
+      // Ignore - running in browser
+    }
+  }
+
+  return axios.create(config);
 };
 
 const apiClient = createAxiosInstance();
