@@ -144,10 +144,10 @@ function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/subscribe"
+                    href="/contact"
                     className="hover:text-gray-200 transition-colors text-sm md:text-base flex items-center justify-center md:justify-start gap-2"
                   >
-                    <span>اشترك معنا</span>
+                    <span>تواصل معنا</span>
                   </Link>
                 </li>
                 <li>

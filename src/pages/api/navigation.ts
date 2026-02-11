@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             { id: 0, name: 'الرئيسية', categorySlug: 'home', isActivated: true, href: '/' },
             { id: 997, name: 'أعلن معنا', categorySlug: 'partners', isActivated: true, href: '/partners' },
             { id: 998, name: 'عنا', categorySlug: 'about', isActivated: true, href: '/about' },
-            { id: 999, name: 'اتصل بنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
+            { id: 999, name: 'تواصل معنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
         ];
 
         // Combine: Home first, then dynamic categories, then Advertise, About and Contact
@@ -76,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             { id: 0, name: 'الرئيسية', categorySlug: 'home', isActivated: true, href: '/' },
             { id: 997, name: 'أعلن معنا', categorySlug: 'partners', isActivated: true, href: '/partners' },
             { id: 998, name: 'عنا', categorySlug: 'about', isActivated: true, href: '/about' },
-            { id: 999, name: 'اتصل بنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
+            { id: 999, name: 'تواصل معنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
         ];
         
         console.log('Using fallback navigation links:', fallbackLinks);
