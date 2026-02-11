@@ -1,0 +1,293 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" fill="none">
+  <!-- Background blob -->
+  <ellipse cx="400" cy="370" rx="340" ry="280" fill="#EDF2FA" opacity="0.7"/>
+  <ellipse cx="380" cy="380" rx="300" ry="250" fill="#E8EFF9" opacity="0.5"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="520" cy="100" rx="40" ry="18" fill="#E0E8F5" opacity="0.6"/>
+  <ellipse cx="540" cy="95" rx="30" ry="14" fill="#E0E8F5" opacity="0.5"/>
+  <ellipse cx="250" cy="130" rx="35" ry="15" fill="#E0E8F5" opacity="0.5"/>
+  <ellipse cx="620" cy="150" rx="25" ry="12" fill="#E0E8F5" opacity="0.4"/>
+
+  <!-- Large Megaphone -->
+  <g transform="translate(250, 180)">
+    <!-- Megaphone body -->
+    <path d="M80 120 L200 60 L200 220 L80 180 Z" fill="#7BB8D4" opacity="0.8"/>
+    <path d="M200 60 L320 20 L320 260 L200 220 Z" fill="#A8D4E6" opacity="0.7"/>
+    <path d="M200 60 L320 20 L320 260 L200 220 Z" fill="url(#megaGrad)" opacity="0.6"/>
+    <!-- Megaphone bell -->
+    <ellipse cx="320" cy="140" rx="15" ry="120" fill="#B8DDE9" opacity="0.6"/>
+    <!-- Megaphone handle -->
+    <rect x="50" y="130" width="40" height="40" rx="5" fill="#5A9CB8"/>
+    <rect x="55" y="135" width="30" height="30" rx="3" fill="#4A8CA8"/>
+    <!-- Sound waves -->
+    <path d="M340 100 Q370 140 340 180" stroke="#A8D4E6" stroke-width="3" fill="none" opacity="0.5"/>
+    <path d="M355 80 Q395 140 355 200" stroke="#A8D4E6" stroke-width="2.5" fill="none" opacity="0.4"/>
+    <path d="M370 65 Q420 140 370 215" stroke="#A8D4E6" stroke-width="2" fill="none" opacity="0.3"/>
+  </g>
+
+  <!-- Light bulb in megaphone -->
+  <g transform="translate(390, 280)">
+    <ellipse cx="30" cy="25" rx="22" ry="25" fill="#FFF9C4" stroke="#FFD54F" stroke-width="2"/>
+    <rect x="22" y="48" width="16" height="10" rx="2" fill="#FFD54F"/>
+    <line x1="30" y1="10" x2="30" y2="30" stroke="#FFB300" stroke-width="2" opacity="0.5"/>
+    <line x1="20" y1="20" x2="40" y2="20" stroke="#FFB300" stroke-width="2" opacity="0.5"/>
+    <!-- Decorative curls on bulb -->
+    <path d="M25 30 Q30 20 35 30" stroke="#FFB300" stroke-width="1.5" fill="none"/>
+  </g>
+
+  <!-- Target/Bullseye - left side -->
+  <g transform="translate(100, 200)">
+    <!-- Search bar behind target -->
+    <rect x="-10" y="25" width="120" height="35" rx="17" fill="#5C6BC0" opacity="0.8"/>
+    <rect x="-5" y="28" width="70" height="29" rx="14" fill="#7986CB" opacity="0.6"/>
+    <!-- Target circles -->
+    <circle cx="50" cy="42" r="35" fill="#E8EAF6" stroke="#5C6BC0" stroke-width="2"/>
+    <circle cx="50" cy="42" r="25" fill="#C5CAE9"/>
+    <circle cx="50" cy="42" r="15" fill="#E91E63" opacity="0.8"/>
+    <circle cx="50" cy="42" r="8" fill="#FCE4EC"/>
+    <circle cx="50" cy="42" r="4" fill="#E91E63"/>
+    <!-- Arrow -->
+    <line x1="85" y1="10" x2="54" y2="40" stroke="#5C6BC0" stroke-width="3"/>
+    <polygon points="54,40 60,30 65,38" fill="#5C6BC0"/>
+    <!-- Magnifying glass -->
+    <circle cx="95" cy="50" r="12" fill="none" stroke="#5C6BC0" stroke-width="2.5"/>
+    <line x1="103" y1="58" x2="112" y2="67" stroke="#5C6BC0" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Video play button -->
+  <g transform="translate(420, 130)">
+    <rect x="0" y="0" width="60" height="42" rx="8" fill="#EF5350" opacity="0.85"/>
+    <polygon points="22,10 22,32 42,21" fill="white"/>
+  </g>
+
+  <!-- Chart/stats bubble -->
+  <g transform="translate(530, 260)">
+    <rect x="0" y="0" width="70" height="55" rx="10" fill="#7E57C2" opacity="0.8"/>
+    <polygon points="15,55 25,55 20,65" fill="#7E57C2" opacity="0.8"/>
+    <!-- Bar chart -->
+    <rect x="12" y="30" width="8" height="15" rx="1" fill="white" opacity="0.8"/>
+    <rect x="23" y="20" width="8" height="25" rx="1" fill="white" opacity="0.8"/>
+    <rect x="34" y="25" width="8" height="20" rx="1" fill="white" opacity="0.8"/>
+    <rect x="45" y="15" width="8" height="30" rx="1" fill="white" opacity="0.8"/>
+  </g>
+
+  <!-- Floating images/photos -->
+  <g transform="translate(340, 110)">
+    <rect x="0" y="0" width="45" height="35" rx="5" fill="white" stroke="#B0BEC5" stroke-width="1" transform="rotate(-10)"/>
+    <rect x="3" y="3" width="39" height="29" rx="3" fill="#C8E6C9" transform="rotate(-10)"/>
+    <polygon points="5,28 18,15 30,25 39,18 39,29 5,29" fill="#81C784" transform="rotate(-10)" opacity="0.7"/>
+  </g>
+
+  <!-- Mountains/landscape icon -->
+  <g transform="translate(470, 90)">
+    <polygon points="0,30 15,5 30,30" fill="#90CAF9" opacity="0.6"/>
+    <polygon points="15,30 27,12 40,30" fill="#64B5F6" opacity="0.7"/>
+  </g>
+
+  <!-- Gears - top right -->
+  <g transform="translate(580, 100)">
+    <circle cx="0" cy="0" r="25" fill="#4FC3F7" opacity="0.7"/>
+    <circle cx="0" cy="0" r="12" fill="#E8EFF9"/>
+    <rect x="-4" y="-28" width="8" height="10" rx="2" fill="#4FC3F7" opacity="0.7"/>
+    <rect x="-4" y="18" width="8" height="10" rx="2" fill="#4FC3F7" opacity="0.7"/>
+    <rect x="-28" y="-4" width="10" height="8" rx="2" fill="#4FC3F7" opacity="0.7"/>
+    <rect x="18" y="-4" width="10" height="8" rx="2" fill="#4FC3F7" opacity="0.7"/>
+    <rect x="14" y="-22" width="8" height="10" rx="2" fill="#4FC3F7" opacity="0.7" transform="rotate(45, 18, -17)"/>
+    <rect x="-22" y="14" width="8" height="10" rx="2" fill="#4FC3F7" opacity="0.7" transform="rotate(45, -18, 19)"/>
+    <rect x="14" y="14" width="8" height="10" rx="2" fill="#4FC3F7" opacity="0.7" transform="rotate(-45, 18, 19)"/>
+    <rect x="-22" y="-22" width="8" height="10" rx="2" fill="#4FC3F7" opacity="0.7" transform="rotate(-45, -18, -17)"/>
+  </g>
+  <g transform="translate(620, 140)">
+    <circle cx="0" cy="0" r="18" fill="#4DD0E1" opacity="0.6"/>
+    <circle cx="0" cy="0" r="8" fill="#E8EFF9"/>
+    <rect x="-3" y="-21" width="6" height="8" rx="2" fill="#4DD0E1" opacity="0.6"/>
+    <rect x="-3" y="13" width="6" height="8" rx="2" fill="#4DD0E1" opacity="0.6"/>
+    <rect x="-21" y="-3" width="8" height="6" rx="2" fill="#4DD0E1" opacity="0.6"/>
+    <rect x="13" y="-3" width="8" height="6" rx="2" fill="#4DD0E1" opacity="0.6"/>
+  </g>
+
+  <!-- Small gear -->
+  <g transform="translate(555, 155)">
+    <circle cx="0" cy="0" r="12" fill="#80DEEA" opacity="0.5"/>
+    <circle cx="0" cy="0" r="5" fill="#E8EFF9"/>
+  </g>
+
+  <!-- Paper airplane -->
+  <g transform="translate(640, 95)">
+    <polygon points="0,15 35,0 15,20" fill="#90CAF9" opacity="0.7"/>
+    <polygon points="15,20 35,0 25,25" fill="#64B5F6" opacity="0.7"/>
+    <!-- Trail -->
+    <path d="M0,15 Q-15,20 -10,30 Q-5,35 -20,38" stroke="#B0BEC5" stroke-width="1.5" fill="none" stroke-dasharray="3,3" opacity="0.5"/>
+  </g>
+
+  <!-- Books/stack at bottom center -->
+  <g transform="translate(380, 480)">
+    <rect x="0" y="0" width="90" height="15" rx="2" fill="#FF8A65" transform="rotate(-3)"/>
+    <rect x="-5" y="-13" width="95" height="15" rx="2" fill="#A5D6A7"/>
+    <rect x="2" y="-25" width="85" height="14" rx="2" fill="#CE93D8"/>
+    <rect x="-3" y="-38" width="92" height="15" rx="2" fill="#90CAF9"/>
+  </g>
+
+  <!-- Person 1 - Woman with laptop (left) -->
+  <g transform="translate(160, 390)">
+    <!-- Sitting on coins -->
+    <circle cx="30" cy="-10" r="18" fill="#F8BBD0"/>
+    <!-- Hair -->
+    <path d="M12,-15 Q15,-35 30,-35 Q45,-35 48,-15" fill="#6D4C41"/>
+    <path d="M12,-15 Q8,-5 10,5" fill="#6D4C41"/>
+    <path d="M48,-15 Q52,-5 50,5" fill="#6D4C41"/>
+    <!-- Body -->
+    <path d="M15,8 Q10,60 20,100" fill="#E91E63" opacity="0.8"/>
+    <path d="M45,8 Q50,60 40,100" fill="#E91E63" opacity="0.8"/>
+    <rect x="15" y="8" width="30" height="45" rx="5" fill="#E91E63" opacity="0.8"/>
+    <!-- Arms -->
+    <path d="M15,20 Q0,35 10,50" stroke="#F8BBD0" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M45,20 Q60,35 50,50" stroke="#F8BBD0" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Laptop -->
+    <rect x="5" y="45" width="50" height="5" rx="1" fill="#546E7A"/>
+    <rect x="10" y="30" width="40" height="18" rx="2" fill="#78909C"/>
+    <rect x="13" y="33" width="34" height="12" rx="1" fill="#B0BEC5"/>
+    <!-- Legs -->
+    <line x1="20" y1="53" x2="15" y2="85" stroke="#3F51B5" stroke-width="7" stroke-linecap="round"/>
+    <line x1="40" y1="53" x2="45" y2="85" stroke="#3F51B5" stroke-width="7" stroke-linecap="round"/>
+    <!-- Shoes -->
+    <ellipse cx="12" cy="88" rx="8" ry="4" fill="#5C6BC0"/>
+    <ellipse cx="48" cy="88" rx="8" ry="4" fill="#5C6BC0"/>
+  </g>
+
+  <!-- Person 2 - Man standing (center-left) -->
+  <g transform="translate(280, 370)">
+    <!-- Head -->
+    <circle cx="30" cy="0" r="18" fill="#FFCC80"/>
+    <!-- Hair -->
+    <path d="M14,-5 Q15,-20 30,-22 Q45,-20 46,-5" fill="#5D4037"/>
+    <!-- Body - shirt -->
+    <rect x="14" y="18" width="32" height="50" rx="5" fill="#42A5F5"/>
+    <!-- Arms -->
+    <path d="M14,25 Q-5,45 5,60" stroke="#FFCC80" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M46,25 Q65,45 55,60" stroke="#FFCC80" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Pants -->
+    <line x1="22" y1="68" x2="18" y2="110" stroke="#37474F" stroke-width="9" stroke-linecap="round"/>
+    <line x1="38" y1="68" x2="42" y2="110" stroke="#37474F" stroke-width="9" stroke-linecap="round"/>
+    <!-- Shoes -->
+    <ellipse cx="16" cy="113" rx="9" ry="5" fill="#455A64"/>
+    <ellipse cx="44" cy="113" rx="9" ry="5" fill="#455A64"/>
+  </g>
+
+  <!-- Person 3 - Man with beard sitting (center-right) -->
+  <g transform="translate(400, 380)">
+    <!-- Head -->
+    <circle cx="30" cy="0" r="18" fill="#FFCC80"/>
+    <!-- Hair -->
+    <path d="M14,-5 Q15,-22 30,-24 Q45,-22 46,-5" fill="#3E2723"/>
+    <!-- Beard -->
+    <path d="M18,8 Q30,22 42,8" fill="#5D4037" opacity="0.6"/>
+    <!-- Glasses -->
+    <circle cx="23" cy="-2" r="7" fill="none" stroke="#455A64" stroke-width="1.5"/>
+    <circle cx="37" cy="-2" r="7" fill="none" stroke="#455A64" stroke-width="1.5"/>
+    <line x1="30" y1="-2" x2="30" y2="-2" stroke="#455A64" stroke-width="1.5"/>
+    <!-- Body -->
+    <rect x="14" y="18" width="32" height="45" rx="5" fill="#7E57C2"/>
+    <!-- Arms -->
+    <path d="M14,25 Q-2,40 8,55" stroke="#FFCC80" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M46,25 Q62,40 52,55" stroke="#FFCC80" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Laptop -->
+    <rect x="3" y="50" width="54" height="5" rx="1" fill="#546E7A"/>
+    <rect x="8" y="35" width="44" height="18" rx="2" fill="#78909C"/>
+    <rect x="11" y="38" width="38" height="12" rx="1" fill="#B0BEC5"/>
+    <!-- Legs -->
+    <line x1="22" y1="63" x2="18" y2="100" stroke="#37474F" stroke-width="8" stroke-linecap="round"/>
+    <line x1="38" y1="63" x2="42" y2="100" stroke="#37474F" stroke-width="8" stroke-linecap="round"/>
+    <!-- Shoes -->
+    <ellipse cx="15" cy="103" rx="9" ry="5" fill="#455A64"/>
+    <ellipse cx="45" cy="103" rx="9" ry="5" fill="#455A64"/>
+  </g>
+
+  <!-- Person 4 - Woman presenting (right) -->
+  <g transform="translate(540, 360)">
+    <!-- Head -->
+    <circle cx="30" cy="0" r="18" fill="#F8BBD0"/>
+    <!-- Hair -->
+    <path d="M12,-10 Q15,-30 30,-32 Q45,-30 48,-10 Q50,5 48,15" fill="#6D4C41"/>
+    <path d="M12,-10 Q10,5 12,15" fill="#6D4C41"/>
+    <!-- Body - dress -->
+    <path d="M14,18 Q5,80 10,120 L50,120 Q55,80 46,18 Z" fill="#EC407A"/>
+    <!-- Arms - presenting gesture -->
+    <path d="M14,25 Q-15,15 -10,35" stroke="#F8BBD0" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M46,25 Q75,15 70,35" stroke="#F8BBD0" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Hands spread -->
+    <circle cx="-10" cy="37" r="5" fill="#F8BBD0"/>
+    <circle cx="70" cy="37" r="5" fill="#F8BBD0"/>
+    <!-- Legs -->
+    <line x1="25" y1="120" x2="22" y2="150" stroke="#F8BBD0" stroke-width="5" stroke-linecap="round"/>
+    <line x1="35" y1="120" x2="38" y2="150" stroke="#F8BBD0" stroke-width="5" stroke-linecap="round"/>
+    <!-- Shoes/heels -->
+    <ellipse cx="20" cy="153" rx="8" ry="4" fill="#AD1457"/>
+    <ellipse cx="40" cy="153" rx="8" ry="4" fill="#AD1457"/>
+  </g>
+
+  <!-- Money bags and coins - bottom left -->
+  <g transform="translate(80, 460)">
+    <!-- Money bag -->
+    <path d="M20,50 Q0,30 5,10 Q10,-5 25,-5 Q40,-5 45,10 Q50,30 30,50 Z" fill="#FFC107"/>
+    <text x="22" y="30" font-size="16" fill="#F57F17" font-weight="bold">$</text>
+    <path d="M15,-5 Q25,-15 35,-5" fill="none" stroke="#FFC107" stroke-width="3"/>
+    
+    <!-- Coins stack 1 -->
+    <ellipse cx="70" cy="45" rx="18" ry="6" fill="#FFD54F"/>
+    <rect x="52" y="35" width="36" height="10" fill="#FFD54F"/>
+    <ellipse cx="70" cy="35" rx="18" ry="6" fill="#FFEB3B"/>
+    <text x="65" y="40" font-size="12" fill="#F57F17" font-weight="bold">$</text>
+    
+    <!-- Coins stack 2 -->
+    <ellipse cx="70" cy="25" rx="18" ry="6" fill="#FFD54F"/>
+    <rect x="52" y="15" width="36" height="10" fill="#FFD54F"/>
+    <ellipse cx="70" cy="15" rx="18" ry="6" fill="#FFEB3B"/>
+    <text x="65" y="20" font-size="12" fill="#F57F17" font-weight="bold">$</text>
+    
+    <!-- Coins stack 3 -->
+    <ellipse cx="70" cy="5" rx="18" ry="6" fill="#FFD54F"/>
+    <rect x="52" y="-5" width="36" height="10" fill="#FFD54F"/>
+    <ellipse cx="70" cy="-5" rx="18" ry="6" fill="#FFEB3B"/>
+    <text x="65" y="0" font-size="12" fill="#F57F17" font-weight="bold">$</text>
+
+    <!-- Single floating coins -->
+    <circle cx="45" cy="-15" r="12" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+    <text x="40" y="-10" font-size="12" fill="#F57F17" font-weight="bold">$</text>
+    <circle cx="90" cy="-20" r="12" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+    <text x="85" y="-15" font-size="12" fill="#F57F17" font-weight="bold">$</text>
+    <circle cx="65" cy="-30" r="12" fill="#FFD54F" stroke="#FFC107" stroke-width="1.5"/>
+    <text x="60" y="-25" font-size="12" fill="#F57F17" font-weight="bold">$</text>
+  </g>
+
+  <!-- Leaves/plants - bottom left -->
+  <g transform="translate(120, 500)">
+    <ellipse cx="0" cy="0" rx="15" ry="30" fill="#26A69A" opacity="0.7" transform="rotate(-30)"/>
+    <ellipse cx="-15" cy="10" rx="12" ry="25" fill="#4DB6AC" opacity="0.6" transform="rotate(-50)"/>
+    <ellipse cx="15" cy="10" rx="12" ry="25" fill="#80CBC4" opacity="0.5" transform="rotate(-10)"/>
+  </g>
+
+  <!-- Hearts/flowers - bottom right -->
+  <g transform="translate(650, 440)">
+    <path d="M10,8 Q10,0 15,0 Q20,0 20,8 Q20,15 10,22 Q0,15 0,8 Q0,0 5,0 Q10,0 10,8 Z" fill="#F48FB1"/>
+    <path d="M30,15 Q30,8 34,8 Q38,8 38,15 Q38,20 30,26 Q22,20 22,15 Q22,8 26,8 Q30,8 30,15 Z" fill="#EC407A" opacity="0.7"/>
+  </g>
+
+  <!-- Magnifying glass - bottom right -->
+  <g transform="translate(590, 510)">
+    <circle cx="15" cy="15" r="14" fill="none" stroke="#78909C" stroke-width="3"/>
+    <circle cx="15" cy="15" r="10" fill="#E3F2FD" opacity="0.5"/>
+    <line x1="25" y1="25" x2="38" y2="38" stroke="#78909C" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- Ground shadow -->
+  <ellipse cx="370" cy="530" rx="280" ry="15" fill="#D5DFE8" opacity="0.3"/>
+
+  <defs>
+    <linearGradient id="megaGrad" x1="200" y1="60" x2="320" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B8DDE9" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7BB8D4" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+</svg>

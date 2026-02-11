@@ -163,6 +163,43 @@ export const articlesApi = {
       throw error;
     }
   },
+  search: async (query: string): Promise<AllArticles[]> => {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) return [];
+    try {
+      // Try the backend search endpoint first
+      const response = await apiClient.get(apiPath(`/api/Articles/Search`), {
+        params: { query: trimmed },
+      });
+      return response.data;
+    } catch {
+      // Fallback: fetch all articles and filter client-side
+      // (works even if backend search endpoint is not deployed yet)
+      console.warn('Backend search endpoint unavailable, falling back to client-side search');
+      try {
+        const allArticles = await getArticles();
+        const stripHtml = (html: string) => html ? html.replace(/<[^>]*>/g, '').trim() : '';
+        return allArticles
+          .filter((a) => {
+            const title = (a.articleTitle || '').toLowerCase();
+            const summary = stripHtml(a.articleSummary || '').toLowerCase();
+            const content = stripHtml(a.articleContent || '').toLowerCase();
+            return title.includes(trimmed) || summary.includes(trimmed) || content.includes(trimmed);
+          })
+          .sort((a, b) => {
+            // Title matches first
+            const aTitle = (a.articleTitle || '').toLowerCase().includes(trimmed) ? 1 : 0;
+            const bTitle = (b.articleTitle || '').toLowerCase().includes(trimmed) ? 1 : 0;
+            if (bTitle !== aTitle) return bTitle - aTitle;
+            return new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime();
+          })
+          .slice(0, 20);
+      } catch (fallbackError) {
+        console.error('Fallback search also failed:', fallbackError);
+        throw fallbackError;
+      }
+    }
+  },
 };
 
 // Social Media API

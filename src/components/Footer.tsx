@@ -29,9 +29,9 @@ function Footer() {
         const data = await response.json();
         console.log('Footer categories data fetched:', data);
         
-        // Filter out non-category links (home, about, contact)
+        // Filter out non-category links (home, about, contact, advertise)
         const categoryLinks = data.filter((link: CategoryLink) => 
-          link.id !== 0 && link.id !== 998 && link.id !== 999
+          link.id !== 0 && link.id !== 997 && link.id !== 998 && link.id !== 999
         );
         
         setCategories(categoryLinks);
@@ -152,10 +152,10 @@ function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/advertise"
+                    href="/partners"
                     className="hover:text-gray-200 transition-colors text-sm md:text-base flex items-center justify-center md:justify-start gap-2"
                   >
-                    <span>اعلن معنا</span>
+                    <span>أعلن معنا</span>
                   </Link>
                 </li>
               </ul>

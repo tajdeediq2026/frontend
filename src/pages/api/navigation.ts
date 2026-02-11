@@ -52,16 +52,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Static links
         const staticLinks: NavigationLink[] = [
             { id: 0, name: 'الرئيسية', categorySlug: 'home', isActivated: true, href: '/' },
+            { id: 997, name: 'أعلن معنا', categorySlug: 'partners', isActivated: true, href: '/partners' },
             { id: 998, name: 'عنا', categorySlug: 'about', isActivated: true, href: '/about' },
             { id: 999, name: 'اتصل بنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
         ];
 
-        // Combine: Home first, then dynamic categories, then About and Contact
+        // Combine: Home first, then dynamic categories, then Advertise, About and Contact
         const allLinks = [
             staticLinks[0], // الرئيسية (Home)
             ...dynamicLinks, // All dynamic categories
-            staticLinks[1], // عنا (About)
-            staticLinks[2]  // اتصل بنا (Contact)
+            staticLinks[1], // أعلن معنا (Advertise)
+            staticLinks[2], // عنا (About)
+            staticLinks[3]  // اتصل بنا (Contact)
         ];
 
         console.log('Final navigation links:', allLinks);
@@ -72,6 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Fallback to static navigation if backend is unavailable
         const fallbackLinks: NavigationLink[] = [
             { id: 0, name: 'الرئيسية', categorySlug: 'home', isActivated: true, href: '/' },
+            { id: 997, name: 'أعلن معنا', categorySlug: 'partners', isActivated: true, href: '/partners' },
             { id: 998, name: 'عنا', categorySlug: 'about', isActivated: true, href: '/about' },
             { id: 999, name: 'اتصل بنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
         ];

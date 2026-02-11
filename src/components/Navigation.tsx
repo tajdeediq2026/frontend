@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import SearchComponent from "./SearchComponent";
 
 type NavigationLink = {
   id: number;
@@ -34,6 +35,7 @@ const Navigation = () => {
         // Fallback to static links if API fails
         const fallbackLinks = [
           { id: 0, name: "الرئيسية", categorySlug: "home", isActivated: true, href: "/" },
+          { id: 997, name: "أعلن معنا", categorySlug: "partners", isActivated: true, href: "/partners" },
           { id: 998, name: "عنا", categorySlug: "about", isActivated: true, href: "/about" },
           { id: 999, name: "اتصل بنا", categorySlug: "contact", isActivated: true, href: "/contact" }
         ];
@@ -48,7 +50,7 @@ const Navigation = () => {
 
   return (
     <nav ref={navRef} className="container mx-auto bg-primaryOther font-bold text-white">
-      <ul className="flex flex-wrap gap-2 mt-5 px-4 py-2">
+      <ul className="flex flex-wrap gap-2 mt-5 px-4 py-2 items-center">
         {loading ? (
           <li className="px-3 py-2">جاري التحميل...</li>
         ) : (
@@ -60,6 +62,10 @@ const Navigation = () => {
             </li>
           ))
         )}
+        {/* Search Button */}
+        <li className="mr-auto">
+          <SearchComponent />
+        </li>
       </ul>
     </nav>
   );
