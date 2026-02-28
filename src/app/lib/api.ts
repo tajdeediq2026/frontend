@@ -200,6 +200,25 @@ export const articlesApi = {
       }
     }
   },
+  getEditorChoice: async (): Promise<AllArticles[]> => {
+    try {
+      const response = await apiClient.get(apiPath('/api/Articles/EditorChoice'));
+      return response.data;
+    } catch {
+      // Fallback: fetch all articles and filter client-side
+      console.warn('EditorChoice endpoint unavailable, falling back to client-side filtering');
+      try {
+        const allArticles = await getArticles();
+        return allArticles
+          .filter(a => a.isPublished && a.editorChoice === true)
+          .sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())
+          .slice(0, 4);
+      } catch (fallbackError) {
+        console.error('Fallback also failed:', fallbackError);
+        throw fallbackError;
+      }
+    }
+  },
 };
 
 // Social Media API

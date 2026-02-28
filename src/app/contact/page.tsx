@@ -149,16 +149,28 @@ export default function ContactUsPage() {
       <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* Illustration - Left side (appears on right in RTL) */}
         <div className="w-full md:w-1/2 flex items-center justify-center">
-          <img
-            src="/contact-illustration.svg"
-            alt="تواصل معنا"
-            className="w-full max-w-lg object-contain"
-            onError={(e) => {
-              // Fallback if SVG doesn't exist
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-            }}
-          />
+          <svg viewBox="0 0 500 400" className="w-full max-w-lg" xmlns="http://www.w3.org/2000/svg">
+            {/* Background circle */}
+            <circle cx="250" cy="200" r="160" fill="#e8f5e9" opacity="0.5" />
+            {/* Envelope body */}
+            <rect x="100" y="130" width="300" height="180" rx="16" fill="#fff" stroke="#2e7d32" strokeWidth="3" />
+            {/* Envelope flap */}
+            <path d="M100 130 L250 240 L400 130" fill="none" stroke="#2e7d32" strokeWidth="3" strokeLinejoin="round" />
+            {/* Inner lines (letter content) */}
+            <line x1="160" y1="210" x2="340" y2="210" stroke="#c8e6c9" strokeWidth="6" strokeLinecap="round" />
+            <line x1="160" y1="235" x2="300" y2="235" stroke="#c8e6c9" strokeWidth="6" strokeLinecap="round" />
+            <line x1="160" y1="260" x2="260" y2="260" stroke="#c8e6c9" strokeWidth="6" strokeLinecap="round" />
+            {/* Paper airplane */}
+            <g transform="translate(360, 90) rotate(-15)">
+              <path d="M0 0 L50 15 L15 20 Z" fill="#f57c00" />
+              <path d="M15 20 L50 15 L20 35 Z" fill="#ef6c00" />
+            </g>
+            {/* Decorative dots */}
+            <circle cx="120" cy="100" r="5" fill="#2e7d32" opacity="0.3" />
+            <circle cx="380" cy="340" r="7" fill="#f57c00" opacity="0.3" />
+            <circle cx="400" cy="100" r="4" fill="#2e7d32" opacity="0.2" />
+            <circle cx="90" cy="300" r="6" fill="#f57c00" opacity="0.2" />
+          </svg>
         </div>
 
         {/* Form - Right side (appears on left in RTL) */}

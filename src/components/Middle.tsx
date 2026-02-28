@@ -5,6 +5,7 @@ import OtherCategories from './OtherCategories';
 import { categoriesApi } from '../app/lib/api';
 import { AllCategories } from '../app/types/Articles';
 import LastNews from './LastNews';
+import EditorChoice from './EditorChoice';
 
 const Middle: React.FC = () => {
   const [categories, setCategories] = useState<AllCategories[]>([]);
@@ -112,6 +113,9 @@ const Middle: React.FC = () => {
             </div>
             <div className="sticky top-4">
               <LastNews />
+              <div className="mt-6">
+                <EditorChoice />
+              </div>
             </div>
           </div>
         </div>
