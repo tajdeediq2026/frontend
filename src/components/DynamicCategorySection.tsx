@@ -29,13 +29,15 @@ interface DynamicCategorySectionProps {
   showHeader?: boolean;
   showViewAll?: boolean;
   className?: string;
+  isCategoryPage?: boolean;
 }
 
 const DynamicCategorySection = ({ 
   category, 
   showHeader = true,
   showViewAll = true,
-  className = ""
+  className = "",
+  isCategoryPage = false
 }: DynamicCategorySectionProps) => {
   // Use the article rotation hook for automatic rotation
   const {
@@ -53,13 +55,26 @@ const DynamicCategorySection = ({
     return null;
   }
 
+  const rootSpacingClass = isCategoryPage ? "mb-0" : "mb-8";
+  const contentPaddingClass = isCategoryPage ? "p-0" : "p-3 sm:p-4 md:p-6";
+  const dynamicGridClass = isCategoryPage
+    ? "flex flex-col lg:grid lg:grid-cols-3 gap-1 sm:gap-1.5 lg:gap-2 lg:h-[520px]"
+    : "flex flex-col lg:grid lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 lg:h-[400px]";
+  const bigContainerClass = isCategoryPage
+    ? "relative h-[270px] sm:h-[330px] lg:h-full lg:col-span-2 rounded-lg overflow-hidden"
+    : "relative h-[200px] sm:h-[250px] lg:h-full lg:col-span-2 rounded-lg overflow-hidden";
+  const smallGridClass = isCategoryPage ? "grid grid-cols-2 gap-1 sm:gap-1.5" : "grid grid-cols-2 gap-2 sm:gap-3";
+  const smallContainerClass = isCategoryPage
+    ? "relative h-[160px] sm:h-[200px] lg:h-auto rounded-lg overflow-hidden"
+    : "relative h-[120px] sm:h-[150px] lg:h-auto rounded-lg overflow-hidden";
+
   return (
-    <div className={`bg-white rounded-lg category-card overflow-hidden mb-8 ${className}`} dir="rtl">
+    <div className={`bg-white rounded-lg category-card overflow-hidden ${rootSpacingClass} ${className}`} dir="rtl">
       {/* Category Header */}
       {showHeader && (
-        <div className="bg-primaryOther px-6 py-4">
+        <div className="bg-primaryOther px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-white font-bold text-xl category-title">{category.name}</h2>
+            <h2 className="text-white font-bold text-lg sm:text-xl category-title">{category.name}</h2>
             {showViewAll && (
               <Link 
                 href={`/category/${category.categorySlug}`}
@@ -74,10 +89,10 @@ const DynamicCategorySection = ({
       )}
 
       {/* Dynamic Layout with Rotation Animation */}
-      <div className="p-6">
-        <div className="dynamic-grid">
+      <div className={contentPaddingClass}>
+        <div className={dynamicGridClass}>
           {/* Big Image on the right */}
-          <div className={`big-article-container ${getRotationClass('big')}`}>
+          <div className={`${bigContainerClass} ${getRotationClass('big')}`}>
             {positions.big && (
               <BigArticleCard 
                 article={positions.big} 
@@ -86,11 +101,11 @@ const DynamicCategorySection = ({
               />
             )}
           </div>
-          {/* Four Small Images on the left - Counter-clockwise rotation */}
-          <div className="small-articles-grid">
+          {/* Four Small Images on the left */}
+          <div className={smallGridClass}>
             {/* Top-Right Position */}
             {positions.topRight && (
-              <div className={`small-article-container ${getRotationClass('top-right')}`}>
+              <div className={`${smallContainerClass} ${getRotationClass('top-right')}`}>
                 <SmallArticleCard 
                   article={positions.topRight}
                   isAnimating={isRotating}
@@ -100,7 +115,7 @@ const DynamicCategorySection = ({
             )}
             {/* Top-Left Position */}
             {positions.topLeft && (
-              <div className={`small-article-container ${getRotationClass('top-left')}`}>
+              <div className={`${smallContainerClass} ${getRotationClass('top-left')}`}>
                 <SmallArticleCard 
                   article={positions.topLeft}
                   isAnimating={isRotating}
@@ -110,7 +125,7 @@ const DynamicCategorySection = ({
             )}
             {/* Bottom-Left Position */}
             {positions.bottomLeft && (
-              <div className={`small-article-container ${getRotationClass('bottom-left')}`}>
+              <div className={`${smallContainerClass} ${getRotationClass('bottom-left')}`}>
                 <SmallArticleCard 
                   article={positions.bottomLeft}
                   isAnimating={isRotating}
@@ -120,7 +135,7 @@ const DynamicCategorySection = ({
             )}
             {/* Bottom-Right Position */}
             {positions.bottomRight && (
-              <div className={`small-article-container ${getRotationClass('bottom-right')}`}>
+              <div className={`${smallContainerClass} ${getRotationClass('bottom-right')}`}>
                 <SmallArticleCard 
                   article={positions.bottomRight}
                   isAnimating={isRotating}
@@ -155,72 +170,22 @@ const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArti
       
       console.log('BigArticle - Fetching image:', article.imagePath);
       
-      // Always fetch as blob for backend images (localhost:7065)
       if (article.imagePath.includes('localhost:7065') || article.imagePath.includes('/uploads/')) {
         try {
-          // Construct full URL if it's a relative path, then encode
           let fullUrl = article.imagePath;
           if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
             fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
           }
-          
-          // Encode the URL properly to handle spaces and special characters
+          fullUrl = fullUrl.replace(/https?:\/\/localhost:7065/g, 'https://tajdeediq-001-site1.stempurl.com');
           const encodedUrl = encodeImageUrl(fullUrl);
-          console.log('BigArticle - Original path:', article.imagePath);
-          console.log('BigArticle - Full URL:', fullUrl);
-          console.log('BigArticle - Encoded URL for fetch:', encodedUrl);
-          
-          const res = await fetch(encodedUrl, { 
-            credentials: 'include',
-            mode: 'cors',
-            cache: 'no-cache'
-          });
-          
-          console.log('BigArticle - Fetch response status:', res.status, res.statusText);
-          
-          if (res.ok) {
-            const blob = await res.blob();
-            console.log('BigArticle - Blob created, size:', blob.size, 'type:', blob.type);
-            objectUrl = URL.createObjectURL(blob);
-            setImgSrc(objectUrl);
-            setIsBlob(true);
-          } else {
-            console.error('BigArticle - Fetch failed with status:', res.status);
-            // Try alternative URL format
-            const altUrl = article.imagePath.startsWith('https://tajdeediq-001-site1.stempurl.com') 
-              ? article.imagePath 
-              : `https://tajdeediq-001-site1.stempurl.com${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`;
-            
-            if (altUrl !== article.imagePath) {
-              console.log('BigArticle - Trying alternative URL:', altUrl);
-              const encodedAltUrl = encodeImageUrl(altUrl);
-              console.log('BigArticle - Encoded alternative URL:', encodedAltUrl);
-              const altRes = await fetch(encodedAltUrl, { 
-                credentials: 'include',
-                mode: 'cors',
-                cache: 'no-cache'
-              });
-              if (altRes.ok) {
-                const blob = await altRes.blob();
-                objectUrl = URL.createObjectURL(blob);
-                setImgSrc(objectUrl);
-                setIsBlob(true);
-                return;
-              }
-            }
-            
-            console.error('BigArticle - Failed to load image from API');
-          }
+          setImgSrc(encodedUrl);
+          setIsBlob(false);
         } catch (error) {
-          console.error('BigArticle - Fetch error:', error);
+          console.error('BigArticle - Image URL error:', error);
         }
       } else if (/^https?:\/\//.test(article.imagePath)) {
-        // For external URLs, use directly
-        console.log('BigArticle - Using direct URL for external image');
         setImgSrc(article.imagePath);
         setIsBlob(false);
-      } else {
-        console.log('BigArticle - Unknown image path format');
       }
     };
     fetchImage();
@@ -257,8 +222,8 @@ const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArti
         />
         {/* Light overlay for text contrast only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-          <h3 className="dynamic-big-title line-clamp-2 leading-tight text-white font-bold article-title-shadow">
+        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 z-20">
+          <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl line-clamp-2 leading-tight text-white font-bold article-title-shadow">
             {article.articleTitle}
           </h3>
           {isNew && (
@@ -295,72 +260,22 @@ const SmallArticleCard = ({ article, isAnimating = false, position = '' }: Small
       
       console.log('SmallArticle - Fetching image:', article.imagePath);
       
-      // Always fetch as blob for backend images (localhost:7065)
       if (article.imagePath.includes('localhost:7065') || article.imagePath.includes('/uploads/')) {
         try {
-          // Construct full URL if it's a relative path, then encode
           let fullUrl = article.imagePath;
           if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
             fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
           }
-          
-          // Encode the URL properly to handle spaces and special characters
+          fullUrl = fullUrl.replace(/https?:\/\/localhost:7065/g, 'https://tajdeediq-001-site1.stempurl.com');
           const encodedUrl = encodeImageUrl(fullUrl);
-          console.log('SmallArticle - Original path:', article.imagePath);
-          console.log('SmallArticle - Full URL:', fullUrl);
-          console.log('SmallArticle - Encoded URL for fetch:', encodedUrl);
-          
-          const res = await fetch(encodedUrl, { 
-            credentials: 'include',
-            mode: 'cors',
-            cache: 'no-cache'
-          });
-          
-          console.log('SmallArticle - Fetch response status:', res.status, res.statusText);
-          
-          if (res.ok) {
-            const blob = await res.blob();
-            console.log('SmallArticle - Blob created, size:', blob.size, 'type:', blob.type);
-            objectUrl = URL.createObjectURL(blob);
-            setImgSrc(objectUrl);
-            setIsBlob(true);
-          } else {
-            console.error('SmallArticle - Fetch failed with status:', res.status);
-            // Try alternative URL format
-            const altUrl = article.imagePath.startsWith('https://tajdeediq-001-site1.stempurl.com') 
-              ? article.imagePath 
-              : `https://tajdeediq-001-site1.stempurl.com${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`;
-            
-            if (altUrl !== article.imagePath) {
-              console.log('SmallArticle - Trying alternative URL:', altUrl);
-              const encodedAltUrl = encodeImageUrl(altUrl);
-              console.log('SmallArticle - Encoded alternative URL:', encodedAltUrl);
-              const altRes = await fetch(encodedAltUrl, { 
-                credentials: 'include',
-                mode: 'cors',
-                cache: 'no-cache'
-              });
-              if (altRes.ok) {
-                const blob = await altRes.blob();
-                objectUrl = URL.createObjectURL(blob);
-                setImgSrc(objectUrl);
-                setIsBlob(true);
-                return;
-              }
-            }
-            
-            console.error('SmallArticle - Failed to load image from API');
-          }
+          setImgSrc(encodedUrl);
+          setIsBlob(false);
         } catch (error) {
-          console.error('SmallArticle - Fetch error:', error);
+          console.error('SmallArticle - Image URL error:', error);
         }
       } else if (/^https?:\/\//.test(article.imagePath)) {
-        // For external URLs, use directly
-        console.log('SmallArticle - Using direct URL for external image');
         setImgSrc(article.imagePath);
         setIsBlob(false);
-      } else {
-        console.log('SmallArticle - Unknown image path format');
       }
     };
     fetchImage();
@@ -396,8 +311,8 @@ const SmallArticleCard = ({ article, isAnimating = false, position = '' }: Small
         />
         {/* Light overlay for text contrast only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent z-10" />
-        <div className="absolute bottom-0 left-0 right-0 p-3 z-20">
-          <h4 className="dynamic-small-title line-clamp-2 leading-tight text-white font-bold article-title-shadow">
+        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 z-20">
+          <h4 className="text-xs sm:text-sm md:text-base line-clamp-2 leading-tight text-white font-bold article-title-shadow">
             {article.articleTitle}
           </h4>
           {isAnimating && (

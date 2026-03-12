@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { encodeImageUrl } from "../app/lib/imageUtils";
 
@@ -38,7 +38,9 @@ const DynamicCategorySectionRotating = ({
 }: DynamicCategorySectionRotatingProps) => {
   // State for managing article rotation animation
   const [animateRotation, setAnimateRotation] = useState(false);
-  const [previousArticleIds, setPreviousArticleIds] = useState<string[]>([]);
+  const previousArticleIdsRef = useRef<string[]>([]);
+  const startAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resetAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Sort articles by creation date (newest first) and take exactly 5 articles (1 big + 4 small)
   const sortedArticles = category.articles
@@ -50,26 +52,44 @@ const DynamicCategorySectionRotating = ({
   useEffect(() => {
     if (sortedArticles.length > 0) {
       const currentArticleIds = sortedArticles.map(article => article.id);
+      const previousArticleIds = previousArticleIdsRef.current;
       
       // Check if we have a new article (different first article)
       if (previousArticleIds.length > 0 && previousArticleIds[0] !== currentArticleIds[0]) {
         console.log(`🔄 Article rotation detected in category ${category.name}`);
         console.log('Previous first article:', previousArticleIds[0]);
         console.log('New first article:', currentArticleIds[0]);
-        
-        // Trigger rotation animation
-        setAnimateRotation(true);
-        
-        // Reset animation after animation completes
-        setTimeout(() => {
+
+        if (startAnimationTimeoutRef.current) {
+          clearTimeout(startAnimationTimeoutRef.current);
+        }
+        if (resetAnimationTimeoutRef.current) {
+          clearTimeout(resetAnimationTimeoutRef.current);
+        }
+
+        // Trigger and reset animation asynchronously to satisfy hook lint rules.
+        startAnimationTimeoutRef.current = setTimeout(() => {
+          setAnimateRotation(true);
+        }, 0);
+
+        resetAnimationTimeoutRef.current = setTimeout(() => {
           setAnimateRotation(false);
         }, 1000); // 1 second animation duration
       }
       
       // Update previous article IDs
-      setPreviousArticleIds(currentArticleIds);
+      previousArticleIdsRef.current = currentArticleIds;
     }
-  }, [sortedArticles, previousArticleIds, category.name]);
+
+    return () => {
+      if (startAnimationTimeoutRef.current) {
+        clearTimeout(startAnimationTimeoutRef.current);
+      }
+      if (resetAnimationTimeoutRef.current) {
+        clearTimeout(resetAnimationTimeoutRef.current);
+      }
+    };
+  }, [sortedArticles, category.name]);
   
   if (!category.articles || category.articles.length === 0) {
     return null;

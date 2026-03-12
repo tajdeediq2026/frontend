@@ -49,6 +49,7 @@ const TestImageDisplay: React.FC<TestImageDisplayProps> = ({
       <div className="mb-4">
         <h3 className="text-lg font-semibold mb-2">Direct img tag (for comparison):</h3>
         <div className="relative w-full h-48 border border-gray-200 rounded-lg overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageUrl}
             alt={description}

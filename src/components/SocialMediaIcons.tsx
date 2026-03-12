@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 type SocialMedia = {
@@ -19,6 +20,16 @@ interface SocialMediaIconsProps {
 function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }: SocialMediaIconsProps) {
   const [socialMedias, setSocialMedias] = useState<SocialMedia[]>([]);
   const [loading, setLoading] = useState(true);
+  const [failedImageIds, setFailedImageIds] = useState<Set<number>>(new Set());
+
+  const markImageAsFailed = (id: number) => {
+    setFailedImageIds((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+  };
 
   useEffect(() => {
     const fetchSocialMedias = async () => {
@@ -32,11 +43,9 @@ function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }:
         }
         
         const data = await response.json();
-        console.log('Social media data fetched:', data);
         
         // Filter only activated social media
         const activeSocialMedias = data.filter((sm: SocialMedia) => sm.isActivated);
-        console.log('Active social medias:', activeSocialMedias);
         setSocialMedias(activeSocialMedias);
       } catch (error) {
         console.error("Failed to fetch social medias", error);
@@ -72,42 +81,40 @@ function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }:
 
   return (
     <div className={`flex ${variant === 'footer' ? 'justify-center md:justify-start' : 'items-center'} ${variant === 'footer' ? 'flex-wrap gap-4' : 'gap-2'} ${className}`}>
-      {socialMedias.map((socialMedia) => (
-        <Link
-          key={socialMedia.socialMediaId}
-          href={socialMedia.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${variant === 'footer' ? 'bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-all hover:scale-110' : 'hover:opacity-75 transition-opacity'}`}
-          title={socialMedia.iconName}
-        >
-          {socialMedia.imagePath ? (
-            <img
-              src={`https://tajdeediq-001-site1.stempurl.com${socialMedia.imagePath}`}
-              alt={socialMedia.iconName}
-              width={iconSize}
-              height={iconSize}
-              className={`${variant === 'footer' ? 'w-8 h-8' : `w-${iconSize === 40 ? '10' : '8'} h-${iconSize === 40 ? '10' : '8'}`} object-cover rounded`}
-              onError={(e) => {
-                console.error(`Failed to load image: ${socialMedia.imagePath}`);
-                // Hide the image and show fallback
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-                const fallback = target.parentElement?.querySelector('.fallback-icon') as HTMLElement;
-                if (fallback) fallback.style.display = 'flex';
-              }}
-              onLoad={() => {
-                console.log(`Successfully loaded image: ${socialMedia.imagePath}`);
-              }}
-            />
-          ) : null}
-          <div 
-            className={`fallback-icon w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-sm font-bold shadow-sm ${socialMedia.imagePath ? 'hidden' : 'flex'}`}
+      {socialMedias.map((socialMedia) => {
+        const imageUrl = socialMedia.imagePath
+          ? `https://tajdeediq-001-site1.stempurl.com${socialMedia.imagePath}`
+          : '';
+        const showImage = Boolean(imageUrl) && !failedImageIds.has(socialMedia.socialMediaId);
+
+        return (
+          <Link
+            key={socialMedia.socialMediaId}
+            href={socialMedia.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${variant === 'footer' ? 'bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-all hover:scale-110' : 'hover:opacity-75 transition-opacity'}`}
+            title={socialMedia.iconName}
           >
-            {socialMedia.iconName.charAt(0).toUpperCase()}
-          </div>
-        </Link>
-      ))}
+            {showImage ? (
+              <Image
+                src={imageUrl}
+                alt={socialMedia.iconName}
+                width={iconSize}
+                height={iconSize}
+                className={`${variant === 'footer' ? 'w-8 h-8' : ''} object-cover rounded`}
+                onError={() => markImageAsFailed(socialMedia.socialMediaId)}
+                unoptimized
+              />
+            ) : null}
+            <div
+              className={`fallback-icon w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 items-center justify-center text-white text-sm font-bold shadow-sm ${showImage ? 'hidden' : 'flex'}`}
+            >
+              {socialMedia.iconName.charAt(0).toUpperCase()}
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }

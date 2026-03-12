@@ -52,14 +52,14 @@ function Footer() {
     <footer className="text-white">
       {/* Green Background Section with Container */}
       <div className="bg-primaryOther container mx-auto px-4">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-2 sm:px-4">
           {/* Main Footer Content */}
           <div
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 py-10 md:py-12"
+            className="grid grid-cols-2 md:grid-cols-12 gap-4 sm:gap-6 md:gap-8 py-6 sm:py-8 md:py-12"
             dir="rtl"
           >
             {/* Logo and Description Section - 3 columns on desktop */}
-            <div className="md:col-span-3 text-center md:text-center">
+            <div className="col-span-2 md:col-span-3 text-center">
               <Link
                 href="/"
                 title="الصفحة الرئيسية - تجديد"
@@ -70,7 +70,7 @@ function Footer() {
                   alt="شعار جريدة تجديد"
                   width={120}
                   height={120}
-                  className="hover:opacity-90 transition-opacity mt-10"
+                  className="hover:opacity-90 transition-opacity mt-4 sm:mt-10 w-16 h-16 sm:w-24 sm:h-24 md:w-[120px] md:h-[120px]"
                 />
               </Link>
               {/* <p className="text-sm text-gray-200 leading-relaxed mt-4">
@@ -80,7 +80,7 @@ function Footer() {
             </div>
 
             {/* Categories Section - 3 columns on desktop */}
-            <div className="md:col-span-3 text-center md:text-right">
+            <div className="col-span-1 md:col-span-3 text-center md:text-right">
               <h3 className="font-bold text-xl mb-4 border-b-2 border-white/20 pb-2 inline-block">
                 الأقسام
               </h3>
@@ -113,7 +113,7 @@ function Footer() {
             </div>
 
             {/* Important Links Section - 3 columns on desktop */}
-            <div className="md:col-span-3 text-center md:text-right">
+            <div className="col-span-1 md:col-span-3 text-center md:text-right">
               <h3 className="font-bold text-xl mb-4 border-b-2 border-white/20 pb-2 inline-block">
                 روابط مهمة
               </h3>
@@ -162,7 +162,7 @@ function Footer() {
             </div>
 
             {/* Social Media Section - 3 columns on desktop */}
-            <div className="md:col-span-2 text-center md:text-right">
+            <div className="col-span-2 md:col-span-2 text-center md:text-right">
               <h3 className="font-bold text-xl mb-4 border-b-2 border-white/20 pb-2 inline-block">
                 تابعنا
               </h3>

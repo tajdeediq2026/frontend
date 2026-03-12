@@ -23,6 +23,8 @@ const inter = localFont({
     // },
   ],
   variable: "--font-inter", // Optional: Use in Tailwind
+  display: "swap",
+  preload: false,
 });
 
 // const geistSans = localFont({

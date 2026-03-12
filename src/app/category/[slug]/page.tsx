@@ -123,6 +123,7 @@ const CategoryPage = () => {
               category={category}
               showHeader={false}
               showViewAll={false}
+              isCategoryPage={true}
             />
 
             {/* Additional Articles if more than 5 */}
@@ -150,7 +151,7 @@ const CategoryPage = () => {
                         <h4 className="font-semibold text-base line-clamp-2 mb-2 group-hover:text-primaryOther transition-colors">
                           {article.articleTitle}
                         </h4>
-                        <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+                        <p className="text-sm text-gray-600 line-clamp-2 leading-6 min-h-12 mb-2 overflow-hidden">
                           {article.articleSummary}
                         </p>
                         <div className="text-xs text-gray-500">

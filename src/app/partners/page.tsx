@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 interface Duration {
@@ -200,10 +201,13 @@ export default function AdvertiseWithUsPage() {
       <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* Illustration - Left side (appears on right in RTL) */}
         <div className="w-full md:w-1/2 flex items-center justify-center">
-          <img
+          <Image
             src="/advertise-illustration.svg"
             alt="أعلن معنا"
+            width={800}
+            height={600}
             className="w-full max-w-lg object-contain"
+            priority
           />
         </div>
 

@@ -44,22 +44,16 @@ const SimpleArticleDisplay = ({
           if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
             fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
           }
+          // Replace localhost URLs with production URL
+          fullUrl = fullUrl.replace(/https?:\/\/localhost:7065/g, 'https://tajdeediq-001-site1.stempurl.com');
           
           const encodedUrl = encodeImageUrl(fullUrl);
-          const res = await fetch(encodedUrl, { 
-            credentials: 'include',
-            mode: 'cors',
-            cache: 'no-cache'
-          });
           
-          if (res.ok) {
-            const blob = await res.blob();
-            objectUrl = URL.createObjectURL(blob);
-            setImgSrc(objectUrl);
-            setIsBlob(true);
-          }
+          // First try direct URL (avoids CORS issues)
+          setImgSrc(encodedUrl);
+          setIsBlob(false);
         } catch (error) {
-          console.error('SimpleArticleDisplay - Fetch error:', error);
+          console.error('SimpleArticleDisplay - Image URL error:', error);
         }
       } else if (/^https?:\/\//.test(article.imagePath)) {
         setImgSrc(article.imagePath);

@@ -113,7 +113,7 @@ const ArticleCard = ({
       <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow group">
         {showImage && article.imagePath && article.imagePath.trim() !== '' && (
           <>
-            <div className="h-48 overflow-hidden relative">
+            <div className="h-40 sm:h-48 overflow-hidden relative">
               <ArticleImage
                 src={article.imagePath}
                 alt={article.articleTitle}
@@ -127,20 +127,21 @@ const ArticleCard = ({
               {/* Light overlay for text contrast only */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent z-10" />
               {/* Article title on image */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-                <h2 className="text-lg font-bold text-right line-clamp-2 text-white article-title-shadow">
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 z-20">
+                <h2 className="text-base sm:text-lg font-bold text-right line-clamp-2 text-white article-title-shadow">
                   {article.articleTitle}
                 </h2>
               </div>
             </div>
             {/* Date and Summary below image */}
-            <div className="p-4">
-              <p className="text-gray-600 text-right line-clamp-2 mb-2 text-sm">
+            <div className="p-3 sm:p-4 flex-1 flex flex-col">
+              <div className="flex items-center gap-1 text-xs text-gray-400 mb-1.5">
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <span>{formattedDate}</span>
+              </div>
+              <p className="text-gray-600 text-right line-clamp-2 text-xs sm:text-sm leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
                 {article.articleSummary}
               </p>
-              <span className="text-sm text-gray-500">
-                {formattedDate}
-              </span>
             </div>
           </>
         )}
@@ -149,7 +150,7 @@ const ArticleCard = ({
             <h2 className="text-xl font-semibold mb-2 text-right line-clamp-2">
               {article.articleTitle}
             </h2>
-            <p className="text-gray-600 mb-4 text-right line-clamp-3">
+            <p className="text-gray-600 mb-4 text-right line-clamp-2 text-sm leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
               {article.articleSummary}
             </p>
             <span className="text-sm text-gray-500">

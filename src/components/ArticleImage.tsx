@@ -17,13 +17,12 @@ const ArticleImage: React.FC<ArticleImageProps> = ({
   fallbackElement
 }) => {
   const [imageError, setImageError] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
 
   // Check if we have a valid image source
-  const hasValidSrc = src && src.trim() && !imageError;
+  const hasValidSrc = Boolean(src?.trim()) && !imageError;
 
   // Normalize image path using centralized utility
-  const normalizedSrc = hasValidSrc ? normalizeImagePath(src.trim()) : '';
+  const normalizedSrc = hasValidSrc ? normalizeImagePath(src!.trim()) : '';
 
   // Default fallback
   const defaultFallback = (
@@ -38,52 +37,25 @@ const ArticleImage: React.FC<ArticleImageProps> = ({
 
 
 
-  if (!hasValidSrc) {
-    console.log('ArticleImage: Showing fallback due to invalid src');
+  if (!hasValidSrc || !normalizedSrc) {
     return fallbackElement || defaultFallback;
   }
 
-  console.log('=== RENDERING IMAGE ===');
-  console.log('Using normalized src:', normalizedSrc);
-  console.log('hasValidSrc:', hasValidSrc);
-  console.log('imageError:', imageError);
-  console.log('imageLoading:', imageLoading);
-
   return (
     <div className="relative w-full h-full">
-      {/* Show fallback while loading or if error */}
-      {(imageLoading || imageError) && (
-        <div className="absolute inset-0 z-10">
-          {fallbackElement || defaultFallback}
-        </div>
-      )}
       {/* Use Next.js Image component for optimization */}
       {!imageError && (
         <>
           <Image
             src={normalizedSrc}
             alt={alt}
-            className={`${className} absolute inset-0 w-full h-full object-cover ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300 z-20`}
+            className={`${className} absolute inset-0 w-full h-full object-cover z-20`}
             fill
             sizes="100vw"
-            onError={(e) => {
-              console.error('=== IMAGE LOADING ERROR ===');
-              console.error('Original src:', src);
-              console.error('Normalized path:', normalizedSrc);
-              console.error('Backend URL from env:', process.env.NEXT_PUBLIC_API_URL);
-              console.error('hasValidSrc:', hasValidSrc);
-              console.error('Type of src:', typeof src);
-              console.error('Error event:', e);
-              console.error('================================');
+            onError={() => {
               setImageError(true);
-              setImageLoading(false);
             }}
-            onLoad={() => {
-              console.log('=== IMAGE LOADED SUCCESSFULLY ===');
-              console.log('Loaded image:', normalizedSrc);
-              setImageLoading(false);
-            }}
-            unoptimized // Remove this line if you want Next.js to optimize remote images
+            unoptimized
           />
         </>
       )}

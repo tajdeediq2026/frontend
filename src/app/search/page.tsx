@@ -168,7 +168,7 @@ function SearchResultsContent() {
                     <h2 className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-primaryOther transition-colors line-clamp-2 mb-2">
                       {highlightMatch(article.articleTitle, q)}
                     </h2>
-                    <p className="text-sm md:text-base text-gray-600 line-clamp-3 leading-relaxed">
+                    <p className="text-sm md:text-base text-gray-600 line-clamp-2 leading-5 md:leading-6 min-h-10 md:min-h-12 overflow-hidden">
                       {highlightMatch(
                         getContentSnippet(
                           article.articleSummary || article.articleContent,

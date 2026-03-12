@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export interface Article {
   id: string;
@@ -20,7 +20,6 @@ interface UseArticleRotationProps {
 
 interface RotationState {
   isRotating: boolean;
-  previousArticleIds: string[];
   newArticleId: string | null;
   rotationTimestamp: number;
 }
@@ -34,9 +33,11 @@ export const useArticleRotation = ({
   categoryId,
   maxArticles = 5
 }: UseArticleRotationProps) => {
+  const previousArticleIdsRef = useRef<string[]>([]);
+  const resetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const [rotationState, setRotationState] = useState<RotationState>({
     isRotating: false,
-    previousArticleIds: [],
     newArticleId: null,
     rotationTimestamp: 0
   });
@@ -52,55 +53,66 @@ export const useArticleRotation = ({
     if (sortedArticles.length === 0) return;
 
     const currentArticleIds = sortedArticles.map(article => article.id);
-    
-    setRotationState(prev => {
-      const { previousArticleIds } = prev;
-      
-      // Check if this is the first load
-      if (previousArticleIds.length === 0) {
-        return {
-          ...prev,
-          previousArticleIds: currentArticleIds
-        };
-      }
+    const previousArticleIds = previousArticleIdsRef.current;
 
-      // Check if we have a new article at the top position (big image)
-      const hasNewTopArticle = currentArticleIds[0] !== previousArticleIds[0];
-      
-      // Check if any new articles were added
-      const newArticleIds = currentArticleIds.filter(id => !previousArticleIds.includes(id));
-      const hasNewArticles = newArticleIds.length > 0;
+    // Check if this is the first load
+    if (previousArticleIds.length === 0) {
+      previousArticleIdsRef.current = currentArticleIds;
+      return;
+    }
 
-      if (hasNewTopArticle || hasNewArticles) {
-        console.log('🔄 Article rotation detected:', {
-          categoryId,
-          hasNewTopArticle,
-          newArticleIds,
-          previousTop: previousArticleIds[0],
-          newTop: currentArticleIds[0]
-        });
+    // Check if we have a new article at the top position (big image)
+    const hasNewTopArticle = currentArticleIds[0] !== previousArticleIds[0];
 
-        // Trigger rotation animation
-        setTimeout(() => {
-          setRotationState(resetPrev => ({
-            ...resetPrev,
-            isRotating: false,
-            newArticleId: null
-          }));
-        }, 1200); // 1.2 seconds to allow for all animations
+    // Check if any new articles were added
+    const newArticleIds = currentArticleIds.filter(id => !previousArticleIds.includes(id));
+    const hasNewArticles = newArticleIds.length > 0;
 
-        return {
-          ...prev,
-          isRotating: true,
-          newArticleId: newArticleIds[0] || currentArticleIds[0],
-          rotationTimestamp: Date.now(),
-          previousArticleIds: currentArticleIds
-        };
-      }
-      
-      return prev;
+    previousArticleIdsRef.current = currentArticleIds;
+
+    if (!(hasNewTopArticle || hasNewArticles)) return;
+
+    console.log('🔄 Article rotation detected:', {
+      categoryId,
+      hasNewTopArticle,
+      newArticleIds,
+      previousTop: previousArticleIds[0],
+      newTop: currentArticleIds[0]
     });
+
+    const startTimeoutId = setTimeout(() => {
+      setRotationState(prev => ({
+        ...prev,
+        isRotating: true,
+        newArticleId: newArticleIds[0] || currentArticleIds[0],
+        rotationTimestamp: Date.now(),
+      }));
+    }, 0);
+
+    if (resetTimeoutRef.current) {
+      clearTimeout(resetTimeoutRef.current);
+    }
+
+    resetTimeoutRef.current = setTimeout(() => {
+      setRotationState(resetPrev => ({
+        ...resetPrev,
+        isRotating: false,
+        newArticleId: null
+      }));
+    }, 1200); // 1.2 seconds to allow for all animations
+
+    return () => {
+      clearTimeout(startTimeoutId);
+    };
   }, [sortedArticles, categoryId]);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Manual rotation trigger function
   const triggerRotation = useCallback(() => {

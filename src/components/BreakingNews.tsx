@@ -67,15 +67,15 @@ const BreakingNews = () => {
   };
 
   return (
-    <div className="container mx-auto bg-red-600 text-white py-2 border-b-2 border-red-700 animate-scale-in">
-      <div className="container mx-auto px-4">
+    <div className="container mx-auto bg-red-600 text-white py-1.5 sm:py-2 border-b-2 border-red-700 animate-scale-in">
+      <div className="container mx-auto px-2 sm:px-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center flex-1">
-            <span className="bg-white text-red-600 px-4 py-2 text-sm font-bold rounded-sm ml-2 flex-shrink-0">
+          <div className="flex items-center flex-1 min-w-0">
+            <span className="bg-white text-red-600 px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-bold rounded-sm ml-2 flex-shrink-0">
               أخبار عاجلة
             </span>
-            <div className="flex-1 mx-4">
-              <span className="text-sm font-normal animate-fade-in">
+            <div className="flex-1 mx-2 sm:mx-4 min-w-0">
+              <span className="text-xs sm:text-sm font-normal animate-fade-in block truncate">
                 {currentNews.title}
               </span>
             </div>

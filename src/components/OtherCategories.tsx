@@ -91,9 +91,16 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
   if (loading) {
     return (
       <div className="container mx-auto py-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(3)].map((_, index) => (
-            <div key={index} className="bg-gray-200 animate-pulse rounded-lg h-48"></div>
+        <div className="grid grid-cols-2 gap-4 md:gap-6">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden animate-pulse">
+              <div className="w-full aspect-[16/10] bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100"></div>
+              <div className="p-4 space-y-3">
+                <div className="h-4 w-28 bg-gray-200 rounded"></div>
+                <div className="h-3 w-full bg-gray-200 rounded"></div>
+                <div className="h-3 w-5/6 bg-gray-200 rounded"></div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -102,17 +109,17 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
 
   return (
     <div className="container mx-auto py-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-4 md:gap-6">
         {articles.slice(0, limit).map((article) => (
           <Link
             key={article.id}
             href={`/${article.categoryId}/${article.id}`}
             className="block"
           >
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-105 cursor-pointer">
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 cursor-pointer">
               {article.imagePath && article.imagePath.trim() !== '' ? (
                 <>
-                  <div className="w-full h-[300px] relative group">
+                  <div className="w-full aspect-[16/10] relative group">
                     {/* Use <Image> for normal URLs, <img> for blob URLs */}
                     {/*
                       Use <Image> for normal URLs to get Next.js optimization and avoid warnings.
@@ -131,11 +138,11 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                       unoptimized={!!imageBlobs[article.imagePath]}
                     />
                     {/* Light gradient overlay for subtle effect */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
                     
                     {/* Article title overlay on image */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
-                      <h3 className="text-white font-bold text-lg md:text-xl leading-tight text-right article-title-shadow">
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                      <h3 className="text-white font-bold text-base sm:text-lg md:text-xl leading-[1.35] sm:leading-[1.4] text-right line-clamp-2 article-title-shadow-soft">
                         {article.articleTitle}
                       </h3>
                     </div>
@@ -154,18 +161,18 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                     </div>
                     
                     {/* Article summary */}
-                    <p className="text-gray-700 text-sm text-right line-clamp-3 leading-relaxed">
+                    <p className="text-gray-700 text-sm text-right line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
                       {article.articleSummary}
                     </p>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="w-full h-[300px] bg-gray-100 flex items-center justify-center rounded-t-xl relative">
+                  <div className="w-full aspect-[16/10] bg-gray-100 flex items-center justify-center rounded-t-xl relative">
                     <span className="text-gray-400">لا توجد صورة</span>
                     {/* Title overlay even for placeholder */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
-                      <h3 className="text-white font-bold text-lg md:text-xl leading-tight text-right article-title-shadow">
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                      <h3 className="text-white font-bold text-base sm:text-lg md:text-xl leading-[1.35] sm:leading-[1.4] text-right line-clamp-2 article-title-shadow-soft">
                         {article.articleTitle}
                       </h3>
                     </div>
@@ -184,7 +191,7 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                     </div>
                     
                     {/* Article summary */}
-                    <p className="text-gray-700 text-sm text-right line-clamp-3 leading-relaxed">
+                    <p className="text-gray-700 text-sm text-right line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
                       {article.articleSummary}
                     </p>
                   </div>

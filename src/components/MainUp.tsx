@@ -47,13 +47,17 @@ export default function MainUp() {
         setError(errorMessage);
         
         // Automatic retry logic for timeout errors
-        if (retryCount < 2 && (errorMessage.includes('timeout') || errorMessage.includes('ECONNABORTED'))) {
-          console.log(`Retrying... Attempt ${retryCount + 1}`);
-          setRetryCount(prev => prev + 1);
-          // Retry after a short delay
-          setTimeout(() => {
-            fetchData();
-          }, 2000);
+        if (errorMessage.includes('timeout') || errorMessage.includes('ECONNABORTED')) {
+          setRetryCount((prev) => {
+            if (prev >= 2) return prev;
+            const nextAttempt = prev + 1;
+            console.log(`Retrying... Attempt ${nextAttempt}`);
+            // Retry after a short delay
+            setTimeout(() => {
+              fetchData();
+            }, 2000);
+            return nextAttempt;
+          });
         }
       } finally {
         setLoading(false);
@@ -192,17 +196,17 @@ export default function MainUp() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      {/* Main News Layout */}
-      <div className="grid lg:grid-cols-12 gap-6 min-h-[500px]">
+    <div className="container mx-auto px-4 py-4 sm:py-6">
+      {/* Main News Layout - Responsive */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6 min-h-0 lg:min-h-[500px]">
         
         {/* Left Column - Two stacked articles */}
         {leftArticles.length > 0 && (
-          <div className="lg:col-span-3 space-y-4 h-full">
+          <div className="sm:col-span-1 lg:col-span-3 grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-4 h-full">
             {leftArticles.map((article, index) => (
             <div
               key={`left-${article.id}-${index}`}
-              className="relative group cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-[242px]"
+              className="relative group cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-[160px] sm:h-[200px] lg:h-[242px]"
               onClick={() => handleArticleClick(article)}
             >
               <div className="relative h-full">
@@ -217,8 +221,8 @@ export default function MainUp() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-white font-bold text-lg leading-tight text-right text-shadow-outline">
+              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 lg:p-4">
+                <h3 className="text-white font-bold text-sm sm:text-base lg:text-lg leading-tight text-right text-shadow-outline line-clamp-2">
                   {article.articleTitle}
                 </h3>
               </div>
@@ -229,12 +233,12 @@ export default function MainUp() {
 
         {/* Center Column - Main large article */}
         {mainArticle && (
-          <div className="lg:col-span-6">
+          <div className="sm:col-span-2 lg:col-span-6 order-first lg:order-none">
           <div
-            className="relative group cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full"
+            className="relative group cursor-pointer bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-[250px] sm:h-[300px] lg:h-full"
             onClick={() => mainArticle && handleArticleClick(mainArticle)}
           >
-            <div className="relative h-full min-h-[500px]">
+            <div className="relative h-full min-h-0 lg:min-h-[500px]">
               {mainImageUrl && (
                 <Image
                   src={mainImageUrl}
@@ -247,14 +251,11 @@ export default function MainUp() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               
               {/* Article content overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <div className="text-center mb-4">
-                  <h2 className="text-white font-bold text-2xl md:text-3xl leading-tight mb-3 text-right text-shadow-outline">
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 lg:p-6">
+                <div className="text-center mb-2 sm:mb-4">
+                  <h2 className="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl leading-tight mb-1 sm:mb-3 text-right text-shadow-outline line-clamp-2">
                     {mainArticle?.articleTitle}
                   </h2>
-                  <p className="text-gray-200 text-base leading-relaxed text-right text-shadow-outline">
-                    {mainArticle?.articleSummary}
-                  </p>
                 </div>
               </div>
             </div>
@@ -264,11 +265,11 @@ export default function MainUp() {
 
         {/* Right Column - Two stacked articles */}
         {rightArticles.length > 0 && (
-          <div className="lg:col-span-3 space-y-4 h-full">
+          <div className="sm:col-span-1 lg:col-span-3 grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-4 h-full">
             {rightArticles.map((article, index) => (
               <div
               key={`right-${article.id}-${index}`}
-              className="relative group cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-[242px]"
+              className="relative group cursor-pointer bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 h-[160px] sm:h-[200px] lg:h-[242px]"
               onClick={() => handleArticleClick(article)}
             >
               <div className="relative h-full">
@@ -283,8 +284,8 @@ export default function MainUp() {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-white font-bold text-lg leading-tight text-right text-shadow-outline">
+              <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 lg:p-4">
+                <h3 className="text-white font-bold text-sm sm:text-base lg:text-lg leading-tight text-right text-shadow-outline line-clamp-2">
                   {article.articleTitle}
                 </h3>
               </div>
@@ -293,37 +294,6 @@ export default function MainUp() {
           </div>
         )}
       </div>
-
-      {/* Mobile responsive layout */}
-      {articles.length > 0 && (
-        <div className="lg:hidden grid grid-cols-1 gap-4 mt-6">
-          {articles.slice(0, 5).map((article, index) => (
-          <div
-            key={`mobile-${article.id || index}`}
-            className="relative group cursor-pointer bg-white rounded-lg shadow-md overflow-hidden"
-            onClick={() => handleArticleClick(article)}
-          >
-            <div className="relative h-48">
-              {getImageUrl(article.imagePath) && (
-                <Image
-                  src={getImageUrl(article.imagePath)!}
-                  alt={article.articleTitle}
-                  fill
-                  className="object-cover"
-                  unoptimized={true}
-                />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <h3 className="text-white font-bold text-lg leading-tight text-right text-shadow-outline">
-                {article.articleTitle}
-              </h3>
-            </div>
-          </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

@@ -59,6 +59,13 @@ body {
     -1px -1px 2px rgba(0, 0, 0, 0.8);
 }
 
+/* Softer shadow for multi-line overlay titles to avoid blurry second lines */
+.article-title-shadow-soft {
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.85),
+    0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
 /* Custom primary color using OKLCH */
 .text-primaryOther {
   color: oklch(52.7% 0.154 150.069);

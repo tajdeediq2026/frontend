@@ -89,7 +89,7 @@ const CategoryRootPage = () => {
         </div> */}
       </div>
       {/* Main Layout with Category Content and Last News Sidebar - Same as Main Page */}
-      <div className="container mx-auto py-6">
+      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <div className="grid grid-cols-12 gap-4 lg:gap-6">
           {/* Left Content - Category Sections */}
           <div className="col-span-12 lg:col-span-12">
@@ -97,6 +97,7 @@ const CategoryRootPage = () => {
               category={category}
               showHeader={false}
               showViewAll={false}
+              isCategoryPage={true}
             />
 
             {/* Two columns below: Additional Articles (left) and Last News (right) */}
@@ -104,20 +105,20 @@ const CategoryRootPage = () => {
               {/* Additional Articles Section - Left side */}
               {category.articles.length > 5 && (
                 <div className="lg:col-span-8">
-                  <div className="flex text-center mb-8">
-                    <h3 className="text-2xl font-bold text-green-700 mb-4">
+                  <div className="flex items-center gap-3 mb-4 sm:mb-8">
+                    <h3 className="text-xl sm:text-2xl font-bold text-green-700 whitespace-nowrap flex-shrink-0">
                       {category.name}
                     </h3>
-                    <div className="w-96 h-1 bg-primaryOther mx-auto rounded"></div>
+                    <div className="flex-1 h-1 bg-primaryOther rounded"></div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
                     {category.articles.slice(5).map((article) => (
                       <Link
                         key={article.id}
                         href={`/article/${article.id}`}
-                        className="group block bg-white rounded-xl category-card overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                        className="group flex flex-col bg-white rounded-lg sm:rounded-xl category-card overflow-hidden shadow-md hover:shadow-lg transition-shadow h-full"
                       >
-                        <div className="aspect-[4/3] relative overflow-hidden">
+                        <div className="aspect-video sm:aspect-[4/3] relative overflow-hidden">
                           <ArticleImage
                             src={
                               article.imagePath ||
@@ -143,22 +144,23 @@ const CategoryRootPage = () => {
                           {/* Light overlay for text contrast only */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent z-10" />
                           {/* Article title on image */}
-                          <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-                            <h4 className="font-bold text-base line-clamp-2 text-white article-title-shadow">
+                          <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 z-20">
+                            <h4 className="font-bold text-sm sm:text-base line-clamp-2 text-white article-title-shadow">
                               {article.articleTitle}
                             </h4>
                           </div>
                         </div>
                         {/* Date and Summary below image */}
-                        <div className="p-4">
-                          <p className="text-sm text-gray-600 line-clamp-2 mb-2 text-right">
+                        <div className="p-3 sm:p-4 flex-1 flex flex-col">
+                          <div className="flex items-center gap-1 text-xs text-gray-400 mb-1.5">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            <span>
+                              {new Date(article.createdDate).toLocaleDateString("en-US")}
+                            </span>
+                          </div>
+                          <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 text-right leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
                             {article.articleSummary}
                           </p>
-                          <div className="text-xs text-gray-500 text-right">
-                            {new Date(article.createdDate).toLocaleDateString(
-                              "en-US"
-                            )}
-                          </div>
                         </div>
                       </Link>
                     ))}

@@ -31,18 +31,34 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
-    const apiBase = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiBase || !/^https?:\/\//.test(apiBase)) {
+    const rawApiBase = (process.env.NEXT_PUBLIC_API_URL ?? '').trim();
+
+    // Prevent invalid rewrites when env vars are missing or set to placeholder strings.
+    if (!rawApiBase || /^(undefined|null)$/i.test(rawApiBase)) {
       return [];
     }
+
+    let apiBase: URL;
+    try {
+      apiBase = new URL(rawApiBase);
+    } catch {
+      return [];
+    }
+
+    if (apiBase.protocol !== 'http:' && apiBase.protocol !== 'https:') {
+      return [];
+    }
+
+    const normalizedApiBase = apiBase.toString().replace(/\/$/, '');
+
     return [
       {
         source: '/api/backend/:path*',
-        destination: `${apiBase}/api/:path*`,
+        destination: `${normalizedApiBase}/api/:path*`,
       },
       {
         source: '/uploads/:path*',
-        destination: `${apiBase}/uploads/:path*`,
+        destination: `${normalizedApiBase}/uploads/:path*`,
       },
     ];
   },

@@ -16,7 +16,6 @@ const apiPath = (path: string): string => {
 
 // Create a dedicated axios instance with proper configuration
 const createAxiosInstance = (): AxiosInstance => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const config: any = {
     baseURL: BASE_URL,
     timeout: 30000, // Increased timeout to 30 seconds
@@ -33,7 +32,6 @@ const createAxiosInstance = (): AxiosInstance => {
   if (typeof window === 'undefined') {
     try {
       // Dynamic import for server-side only
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const https = require('https');
       config.httpsAgent = new https.Agent({
         rejectUnauthorized: false // Only for development with self-signed certificates

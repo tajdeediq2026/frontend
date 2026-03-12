@@ -43,9 +43,9 @@ const CategorySection = ({
   return (
     <div className="bg-white rounded-lg category-card overflow-hidden mb-8" dir="rtl">
       {/* Category Header */}
-      <div className="bg-primaryOther px-6 py-4">
+      <div className="bg-primaryOther px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-white font-bold text-xl category-title">{category.name}</h2>
+          <h2 className="text-white font-bold text-lg sm:text-xl category-title">{category.name}</h2>
           {showViewAll && (
             <Link 
               href={`/category/${category.categorySlug}`}
@@ -59,7 +59,7 @@ const CategorySection = ({
       </div>
 
       {/* Articles Grid */}
-      <div className="p-6">
+      <div className="p-3 sm:p-4 md:p-6">
         {displayedArticles.length >= 3 ? (
           // Enhanced magazine-style layout
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -130,7 +130,7 @@ const ArticleCard = ({ article, variant }: ArticleCardProps) => {
   if (variant === 'featured') {
     return (
       <Link href={`/article/${article.id}`} className="group block h-full">
-        <div className="relative h-full min-h-[400px]">
+        <div className="relative h-full min-h-[250px] sm:min-h-[400px]">
           <div className="relative overflow-hidden rounded-lg h-full">
             <Image
               src={article.imagePath || '/img/1.jpg'}
@@ -139,8 +139,8 @@ const ArticleCard = ({ article, variant }: ArticleCardProps) => {
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute inset-0 article-card-overlay" />
-            <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-              <h3 className="text-xl font-bold mb-3 line-clamp-2 article-title-featured">
+            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 text-white">
+              <h3 className="text-base sm:text-xl font-bold mb-2 sm:mb-3 line-clamp-2 article-title-featured">
                 {article.articleTitle}
               </h3>
               <div className="flex items-center justify-between text-xs text-gray-300">
@@ -184,7 +184,7 @@ const ArticleCard = ({ article, variant }: ArticleCardProps) => {
   return (
     <Link href={`/article/${article.id}`} className="group block h-full">
       <div className="bg-white rounded-lg overflow-hidden category-card h-full flex flex-col">
-        <div className="aspect-[4/3] relative overflow-hidden">
+        <div className="aspect-video sm:aspect-[4/3] relative overflow-hidden">
           <Image
             src={article.imagePath || '/img/1.jpg'}
             alt={article.articleTitle}
@@ -192,17 +192,17 @@ const ArticleCard = ({ article, variant }: ArticleCardProps) => {
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
-        <div className="p-4 flex-1 flex flex-col">
-          <h4 className="font-semibold text-base line-clamp-2 mb-2 group-hover:text-primaryOther transition-colors article-title-standard flex-1">
+        <div className="p-3 sm:p-4 flex-1 flex flex-col">
+          <h4 className="font-semibold text-sm sm:text-base line-clamp-2 mb-1.5 sm:mb-2 group-hover:text-primaryOther transition-colors article-title-standard">
             {article.articleTitle}
           </h4>
-          <p className="text-sm text-gray-600 line-clamp-2 mb-3">
+          <div className="flex items-center gap-1 text-xs text-gray-400 mb-1.5">
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            <span>{formatDate(article.createdDate)}</span>
+          </div>
+          <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
             {article.articleSummary}
           </p>
-          <div className="text-xs text-gray-500 flex items-center justify-between mt-auto">
-            <span>{formatDate(article.createdDate)}</span>
-            <div className="w-1 h-1 bg-primaryOther rounded-full"></div>
-          </div>
         </div>
       </div>
     </Link>
