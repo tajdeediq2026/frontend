@@ -53,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const staticLinks: NavigationLink[] = [
             { id: 0, name: 'الرئيسية', categorySlug: 'home', isActivated: true, href: '/' },
             { id: 997, name: 'أعلن معنا', categorySlug: 'partners', isActivated: true, href: '/partners' },
-            { id: 998, name: 'عنا', categorySlug: 'about', isActivated: true, href: '/about' },
+            { id: 998, name: 'عن جريدة تجديد', categorySlug: 'about', isActivated: true, href: '/about' },
             { id: 999, name: 'تواصل معنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
         ];
 
@@ -75,7 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const fallbackLinks: NavigationLink[] = [
             { id: 0, name: 'الرئيسية', categorySlug: 'home', isActivated: true, href: '/' },
             { id: 997, name: 'أعلن معنا', categorySlug: 'partners', isActivated: true, href: '/partners' },
-            { id: 998, name: 'عنا', categorySlug: 'about', isActivated: true, href: '/about' },
+            { id: 998, name: 'عن جريدة تجديد', categorySlug: 'about', isActivated: true, href: '/about' },
             { id: 999, name: 'تواصل معنا', categorySlug: 'contact', isActivated: true, href: '/contact' }
         ];
         
