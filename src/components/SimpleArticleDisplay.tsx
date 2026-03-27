@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { IoTimeOutline } from "react-icons/io5";
-import { encodeImageUrl } from "../app/lib/imageUtils";
+import { getImageUrl } from "../app/lib/imageUtils";
 import { AllArticles, AllCategories } from "../app/types/Articles";
 
 interface SimpleArticleDisplayProps {
@@ -27,47 +26,16 @@ const SimpleArticleDisplay = ({
   showCategoryBadge = true
 }: SimpleArticleDisplayProps) => {
   const router = useRouter();
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const [isBlob, setIsBlob] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string>("");
   const [fontSize, setFontSize] = useState(18);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
+  const FALLBACK_IMAGE_SVG =
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'%3E%3Crect width='100%25' height='100%25' fill='%23d1d5db'/%3E%3C/svg%3E";
+
   useEffect(() => {
-    let objectUrl: string | null = null;
-    
-    const fetchImage = async () => {
-      if (!article.imagePath) return;
-      
-      if (article.imagePath.includes('localhost:7065') || article.imagePath.includes('/uploads/')) {
-        try {
-          let fullUrl = article.imagePath;
-          if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
-            fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
-          }
-          // Replace localhost URLs with production URL
-          fullUrl = fullUrl.replace(/https?:\/\/localhost:7065/g, 'https://tajdeediq-001-site1.stempurl.com');
-          
-          const encodedUrl = encodeImageUrl(fullUrl);
-          
-          // First try direct URL (avoids CORS issues)
-          setImgSrc(encodedUrl);
-          setIsBlob(false);
-        } catch (error) {
-          console.error('SimpleArticleDisplay - Image URL error:', error);
-        }
-      } else if (/^https?:\/\//.test(article.imagePath)) {
-        setImgSrc(article.imagePath);
-        setIsBlob(false);
-      }
-    };
-    
-    fetchImage();
-    
-    return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
+    const normalized = getImageUrl(article.imagePath);
+    setImgSrc(normalized ?? "");
   }, [article.imagePath]);
 
   useEffect(() => {
@@ -104,16 +72,23 @@ const SimpleArticleDisplay = ({
       )}
 
       {/* Article Image with Title Overlay */}
-      {showImage && imgSrc && (
+      {showImage && (
         <div className="relative w-full h-64 md:h-96">
-          <Image
-            src={imgSrc}
-            alt={article.articleTitle}
-            fill
-            className="object-cover"
-            priority
-            unoptimized={isBlob}
-          />
+          {imgSrc ? (
+            <img
+              src={imgSrc}
+              alt={article.articleTitle}
+              className="object-cover w-full h-full"
+              loading="eager"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.onerror = null;
+                target.src = FALLBACK_IMAGE_SVG;
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-300" />
+          )}
           {/* Dark overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
           
