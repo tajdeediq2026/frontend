@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { encodeImageUrl } from "../app/lib/imageUtils";
+import { getImageUrl } from "../app/lib/imageUtils";
 import { useArticleRotation } from "../hooks/useArticleRotation";
 
 export type Article = {
@@ -158,43 +158,15 @@ interface BigArticleCardProps {
 }
 
 const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArticleCardProps) => {
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const [isBlob, setIsBlob] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string>('');
+  
   useEffect(() => {
-    let objectUrl: string | null = null;
-    const fetchImage = async () => {
-      if (!article.imagePath) {
-        console.log('BigArticle - No image path provided');
-        return;
+    if (article.imagePath) {
+      const imageUrl = getImageUrl(article.imagePath);
+      if (imageUrl) {
+        setImgSrc(imageUrl);
       }
-      
-      console.log('BigArticle - Fetching image:', article.imagePath);
-      
-      if (article.imagePath.includes('localhost:7065') || article.imagePath.includes('/uploads/')) {
-        try {
-          let fullUrl = article.imagePath;
-          if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
-            fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
-          }
-          fullUrl = fullUrl.replace(/https?:\/\/localhost:7065/g, 'https://tajdeediq-001-site1.stempurl.com');
-          const encodedUrl = encodeImageUrl(fullUrl);
-          setImgSrc(encodedUrl);
-          setIsBlob(false);
-        } catch (error) {
-          console.error('BigArticle - Image URL error:', error);
-        }
-      } else if (/^https?:\/\//.test(article.imagePath)) {
-        setImgSrc(article.imagePath);
-        setIsBlob(false);
-      }
-    };
-    fetchImage();
-    return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-        console.log('BigArticle - Object URL revoked');
-      }
-    };
+    }
   }, [article.imagePath]);
 
   if (!imgSrc) {
@@ -218,7 +190,9 @@ const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArti
           className="object-cover w-full h-full absolute inset-0 scale-110 group-hover:scale-115 transition-transform duration-300"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
-          unoptimized={isBlob}
+          onError={() => {
+            // Fallback gray background
+          }}
         />
         {/* Light overlay for text contrast only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
@@ -247,44 +221,15 @@ interface SmallArticleCardProps {
 }
 
 const SmallArticleCard = ({ article, isAnimating = false, position = '' }: SmallArticleCardProps) => {
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const [isBlob, setIsBlob] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string>('');
   
   useEffect(() => {
-    let objectUrl: string | null = null;
-    const fetchImage = async () => {
-      if (!article.imagePath) {
-        console.log('SmallArticle - No image path provided');
-        return;
+    if (article.imagePath) {
+      const imageUrl = getImageUrl(article.imagePath);
+      if (imageUrl) {
+        setImgSrc(imageUrl);
       }
-      
-      console.log('SmallArticle - Fetching image:', article.imagePath);
-      
-      if (article.imagePath.includes('localhost:7065') || article.imagePath.includes('/uploads/')) {
-        try {
-          let fullUrl = article.imagePath;
-          if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
-            fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
-          }
-          fullUrl = fullUrl.replace(/https?:\/\/localhost:7065/g, 'https://tajdeediq-001-site1.stempurl.com');
-          const encodedUrl = encodeImageUrl(fullUrl);
-          setImgSrc(encodedUrl);
-          setIsBlob(false);
-        } catch (error) {
-          console.error('SmallArticle - Image URL error:', error);
-        }
-      } else if (/^https?:\/\//.test(article.imagePath)) {
-        setImgSrc(article.imagePath);
-        setIsBlob(false);
-      }
-    };
-    fetchImage();
-    return () => {
-      if (objectUrl) {
-        URL.revokeObjectURL(objectUrl);
-        console.log('SmallArticle - Object URL revoked');
-      }
-    };
+    }
   }, [article.imagePath]);
 
   if (!imgSrc) {
@@ -307,7 +252,9 @@ const SmallArticleCard = ({ article, isAnimating = false, position = '' }: Small
           fill
           className={`object-cover w-full h-full absolute inset-0 scale-110 group-hover:scale-115 transition-transform duration-300`}
           sizes="(max-width: 768px) 100vw, 25vw"
-          unoptimized={isBlob}
+          onError={() => {
+            // Fallback gray background
+          }}
         />
         {/* Light overlay for text contrast only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent z-10" />
