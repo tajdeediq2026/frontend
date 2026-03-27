@@ -4,6 +4,14 @@
 
 const FALLBACK_BACKEND_URL = 'https://tajdeediq-001-site1.stempurl.com';
 
+const normalizeBackendImageHost = (url: string): string => {
+  return url
+    .replace(/^http:\/\/localhost:7065/i, FALLBACK_BACKEND_URL)
+    .replace(/^https:\/\/localhost:7065/i, FALLBACK_BACKEND_URL)
+    .replace(/^http:\/\/127\.0\.0\.1:7065/i, FALLBACK_BACKEND_URL)
+    .replace(/^https:\/\/127\.0\.0\.1:7065/i, FALLBACK_BACKEND_URL);
+};
+
 const getBackendUrl = (): string => {
   const rawValue = (process.env.NEXT_PUBLIC_API_URL ?? '').trim();
   if (!rawValue || /^(undefined|null)$/i.test(rawValue)) {
@@ -28,6 +36,9 @@ const getBackendUrl = (): string => {
  */
 export const encodeImageUrl = (url: string): string => {
   if (!url) return '';
+
+  // Replace local backend host URLs with production backend host.
+  url = normalizeBackendImageHost(url);
   
   // If it's a relative path, convert to absolute first
   if (!url.startsWith('http://') && !url.startsWith('https://')) {

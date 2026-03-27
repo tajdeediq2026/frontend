@@ -159,22 +159,24 @@ interface BigArticleCardProps {
 
 const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArticleCardProps) => {
   const [imgSrc, setImgSrc] = useState<string>('');
+  const [imageFailed, setImageFailed] = useState(false);
   
   useEffect(() => {
-    if (article.imagePath) {
-      const imageUrl = getImageUrl(article.imagePath);
-      if (imageUrl) {
-        setImgSrc(imageUrl);
-      }
+    setImageFailed(false);
+    if (!article.imagePath) {
+      setImgSrc('');
+      return;
     }
+
+    const imageUrl = getImageUrl(article.imagePath);
+    setImgSrc(imageUrl ?? '');
   }, [article.imagePath]);
 
-  if (!imgSrc) {
+  if (!imgSrc || imageFailed) {
     return (
       <div className="relative h-full rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primaryOther mb-2"></div>
-          <p className="text-sm text-gray-500">جاري تحميل الصورة...</p>
+          <p className="text-sm text-gray-500">لا توجد صورة</p>
         </div>
       </div>
     );
@@ -191,7 +193,7 @@ const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArti
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
           onError={() => {
-            // Fallback gray background
+            setImageFailed(true);
           }}
         />
         {/* Light overlay for text contrast only */}
@@ -222,22 +224,24 @@ interface SmallArticleCardProps {
 
 const SmallArticleCard = ({ article, isAnimating = false, position = '' }: SmallArticleCardProps) => {
   const [imgSrc, setImgSrc] = useState<string>('');
+  const [imageFailed, setImageFailed] = useState(false);
   
   useEffect(() => {
-    if (article.imagePath) {
-      const imageUrl = getImageUrl(article.imagePath);
-      if (imageUrl) {
-        setImgSrc(imageUrl);
-      }
+    setImageFailed(false);
+    if (!article.imagePath) {
+      setImgSrc('');
+      return;
     }
+
+    const imageUrl = getImageUrl(article.imagePath);
+    setImgSrc(imageUrl ?? '');
   }, [article.imagePath]);
 
-  if (!imgSrc) {
+  if (!imgSrc || imageFailed) {
     return (
       <div className="relative h-full rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primaryOther mb-1"></div>
-          <p className="text-xs text-gray-500">جاري التحميل...</p>
+          <p className="text-xs text-gray-500">لا توجد صورة</p>
         </div>
       </div>
     );
@@ -253,7 +257,7 @@ const SmallArticleCard = ({ article, isAnimating = false, position = '' }: Small
           className={`object-cover w-full h-full absolute inset-0 scale-110 group-hover:scale-115 transition-transform duration-300`}
           sizes="(max-width: 768px) 100vw, 25vw"
           onError={() => {
-            // Fallback gray background
+            setImageFailed(true);
           }}
         />
         {/* Light overlay for text contrast only */}
