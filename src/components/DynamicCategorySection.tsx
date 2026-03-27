@@ -1,8 +1,10 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getImageUrl } from "../app/lib/imageUtils";
 import { useArticleRotation } from "../hooks/useArticleRotation";
+
+const FALLBACK_IMAGE_SVG =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'%3E%3Crect width='100%25' height='100%25' fill='%23e5e7eb'/%3E%3C/svg%3E";
 
 export type Article = {
   id: string;
@@ -159,10 +161,8 @@ interface BigArticleCardProps {
 
 const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArticleCardProps) => {
   const [imgSrc, setImgSrc] = useState<string>('');
-  const [imageFailed, setImageFailed] = useState(false);
   
   useEffect(() => {
-    setImageFailed(false);
     if (!article.imagePath) {
       setImgSrc('');
       return;
@@ -172,7 +172,7 @@ const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArti
     setImgSrc(imageUrl ?? '');
   }, [article.imagePath]);
 
-  if (!imgSrc || imageFailed) {
+  if (!imgSrc) {
     return (
       <div className="relative h-full rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
         <div className="text-center">
@@ -185,15 +185,15 @@ const BigArticleCard = ({ article, isAnimating = false, isNew = false }: BigArti
   return (
     <Link href={`/article/${article.id}`} className="group h-full block">
       <div className={`relative h-full rounded-lg overflow-hidden ${isAnimating ? 'article-rotation-animation' : ''}`}>
-        <Image
+        <img
           src={imgSrc}
           alt={article.articleTitle}
-          fill
           className="object-cover w-full h-full absolute inset-0 scale-110 group-hover:scale-115 transition-transform duration-300"
-          sizes="(max-width: 768px) 100vw, 50vw"
-          priority
-          onError={() => {
-            setImageFailed(true);
+          loading="eager"
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null;
+            target.src = FALLBACK_IMAGE_SVG;
           }}
         />
         {/* Light overlay for text contrast only */}
@@ -224,10 +224,8 @@ interface SmallArticleCardProps {
 
 const SmallArticleCard = ({ article, isAnimating = false, position = '' }: SmallArticleCardProps) => {
   const [imgSrc, setImgSrc] = useState<string>('');
-  const [imageFailed, setImageFailed] = useState(false);
   
   useEffect(() => {
-    setImageFailed(false);
     if (!article.imagePath) {
       setImgSrc('');
       return;
@@ -237,7 +235,7 @@ const SmallArticleCard = ({ article, isAnimating = false, position = '' }: Small
     setImgSrc(imageUrl ?? '');
   }, [article.imagePath]);
 
-  if (!imgSrc || imageFailed) {
+  if (!imgSrc) {
     return (
       <div className="relative h-full rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
         <div className="text-center">
@@ -250,14 +248,15 @@ const SmallArticleCard = ({ article, isAnimating = false, position = '' }: Small
   return (
     <Link href={`/article/${article.id}`} className="group h-full block">
       <div className={`relative h-full rounded-lg overflow-hidden ${isAnimating ? `article-rotation-animation rotation-${position}` : ''}`}>
-        <Image
+        <img
           src={imgSrc}
           alt={article.articleTitle}
-          fill
           className={`object-cover w-full h-full absolute inset-0 scale-110 group-hover:scale-115 transition-transform duration-300`}
-          sizes="(max-width: 768px) 100vw, 25vw"
-          onError={() => {
-            setImageFailed(true);
+          loading="lazy"
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null;
+            target.src = FALLBACK_IMAGE_SVG;
           }}
         />
         {/* Light overlay for text contrast only */}

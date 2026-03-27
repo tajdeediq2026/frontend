@@ -7,11 +7,21 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'tajdeediq-001-site1.stempurl.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.tajdeediq-001-site1.stempurl.com',
       },
       {
         protocol: 'http',
-        hostname: '**',
+        hostname: 'localhost',
+        port: '7065',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+        port: '7065',
       },
     ],
     unoptimized: false,
