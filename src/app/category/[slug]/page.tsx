@@ -140,21 +140,29 @@ const CategoryPage = () => {
                     <Link 
                       key={article.id} 
                       href={`/article/${article.id}`} 
-                      className="group block bg-white rounded-lg category-card overflow-hidden"
+                      className="group block bg-white rounded-lg category-card overflow-hidden hover:shadow-lg transition-shadow"
                     >
-                      <div className="aspect-[4/3] relative overflow-hidden">
-                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-400">صورة المقال</span>
-                        </div>
+                      <div className="aspect-[4/3] relative overflow-hidden bg-gray-200">
+                        {article.imagePath ? (
+                          <img
+                            src={article.imagePath}
+                            alt={article.articleTitle}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23e5e7eb" width="400" height="300"/%3E%3C/svg%3E';
+                            }}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                            <span className="text-gray-400">لا توجد صورة</span>
+                          </div>
+                        )}
                       </div>
                       <div className="p-4">
-                        <h4 className="font-semibold text-base line-clamp-2 mb-2 group-hover:text-primaryOther transition-colors">
+                        <h4 className="font-semibold text-base line-clamp-2 group-hover:text-primaryOther transition-colors">
                           {article.articleTitle}
                         </h4>
-                        <p className="text-sm text-gray-600 line-clamp-2 leading-6 min-h-12 mb-2 overflow-hidden">
-                          {article.articleSummary}
-                        </p>
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-500 mt-2">
                           {new Date(article.createdDate).toLocaleDateString('ar-SA')}
                         </div>
                       </div>
