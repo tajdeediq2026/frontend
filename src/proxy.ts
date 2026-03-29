@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
     if (articleId) {
       try {
         // Fetch article data to get the category and title for proper URL generation
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065';
 
         // Create a simple fetch request to get article data
         const response = await fetch(`${apiUrl}/api/Articles/${articleId}`, {

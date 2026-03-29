@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { encodeImageUrl } from "../app/lib/imageUtils";
 
+const BACKEND_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065').replace(/\/$/, '');
+
 export type Article = {
   id: string;
   articleTitle: string;
@@ -202,7 +204,7 @@ const BigArticleCard = ({ article, isAnimating = false }: BigArticleCardProps) =
           // Construct full URL if it's a relative path, then encode
           let fullUrl = article.imagePath;
           if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
-            fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
+            fullUrl = `${BACKEND_BASE}${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
           }
           
           // Encode the URL properly to handle spaces and special characters
@@ -228,9 +230,9 @@ const BigArticleCard = ({ article, isAnimating = false }: BigArticleCardProps) =
           } else {
             console.error('BigArticle - Fetch failed with status:', res.status);
             // Try alternative URL format
-            const altUrl = article.imagePath.startsWith('https://tajdeediq-001-site1.stempurl.com') 
+            const altUrl = article.imagePath.startsWith(BACKEND_BASE) 
               ? article.imagePath 
-              : `https://tajdeediq-001-site1.stempurl.com${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`;
+              : `${BACKEND_BASE}${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`;
             
             if (altUrl !== article.imagePath) {
               console.log('BigArticle - Trying alternative URL:', altUrl);
@@ -340,7 +342,7 @@ const SmallArticleCard = ({ article, isAnimating = false, position }: SmallArtic
           // Construct full URL if it's a relative path, then encode
           let fullUrl = article.imagePath;
           if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
-            fullUrl = `https://tajdeediq-001-site1.stempurl.com${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
+            fullUrl = `${BACKEND_BASE}${fullUrl.startsWith('/') ? '' : '/'}${fullUrl}`;
           }
           
           // Encode the URL properly to handle spaces and special characters
@@ -366,9 +368,9 @@ const SmallArticleCard = ({ article, isAnimating = false, position }: SmallArtic
           } else {
             console.error('SmallArticle - Fetch failed with status:', res.status);
             // Try alternative URL format
-            const altUrl = article.imagePath.startsWith('https://tajdeediq-001-site1.stempurl.com') 
+            const altUrl = article.imagePath.startsWith(BACKEND_BASE) 
               ? article.imagePath 
-              : `https://tajdeediq-001-site1.stempurl.com${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`;
+              : `${BACKEND_BASE}${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`;
             
             if (altUrl !== article.imagePath) {
               console.log('SmallArticle - Trying alternative URL:', altUrl);

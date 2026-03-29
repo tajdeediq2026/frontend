@@ -12,9 +12,9 @@ export default function ImageTestPage() {
         </h1>
         
         <TestImageDisplay
-          imageUrl="https://tajdeediq-001-site1.stempurl.com/uploads/images/2e18a6ef-5830-41ac-a7c8-7af1229b91c9_Food.PNG"
+          imageUrl="/tajdeed-logo.png"
           title="Food Image Test"
-          description="Testing the Food.PNG image from localhost:7065"
+          description="Testing image loading using local static asset fallback"
         />
 
         <div className="mt-8 text-center">

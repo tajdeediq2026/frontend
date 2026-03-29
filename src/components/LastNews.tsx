@@ -19,23 +19,20 @@ const LastNews = ({ className = '' }: LastNewsProps) => {
         
         console.log("LastNews - Fetching latest 9 articles from all categories");
         
-        // Fetch all articles and sort by creation date
         const response = await fetch("/api/articles");
         if (!response.ok) {
           throw new Error('Failed to fetch articles');
         }
 
         const articlesData: Article[] = await response.json();
-        
-        // Filter only published articles and sort by creation date (newest first)
-        const publishedArticles = articlesData
-          .filter(article => article.isPublished)
+
+        const latestNews = articlesData
           .sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())
-          .slice(0, 9); // Get only the latest 9 articles
-        
-        console.log("LastNews - Received latest articles:", publishedArticles.length);
-        
-        setArticles(publishedArticles);
+          .slice(0, 9);
+
+        console.log("LastNews - Received latest items:", latestNews.length);
+
+        setArticles(latestNews);
       } catch (error) {
         console.error("Failed to fetch latest articles", error);
         setError("فشل في تحميل آخر الأخبار");

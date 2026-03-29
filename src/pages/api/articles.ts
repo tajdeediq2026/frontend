@@ -15,7 +15,7 @@ export type Article = {
 };
 
 // Backend API configuration
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065';
 const ARTICLES_API_URL = `${BASE_URL}/api/Articles`;
 
 // Configure axios to handle HTTPS development certificates

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import DynamicCategorySection, { CategoryWithArticles } from "../../components/DynamicCategorySection";
 import ArticleImage from "../../components/ArticleImage";
 import LastNewsForCategory from "../../components/LastNewsForCategory";
+import InfographicsNews from "../../components/InfographicsNews";
 import Link from "next/link";
 
 const CategoryRootPage = () => {
@@ -122,13 +123,13 @@ const CategoryRootPage = () => {
                           <ArticleImage
                             src={
                               article.imagePath ||
-                              "https://tajdeediq-001-site1.stempurl.com/uploads/images/2e18a6ef-5830-41ac-a7c8-7af1229b91c9_Food.PNG"
+                              "/tajdeed-logo.png"
                             }
                             alt={article.articleTitle || "Food Image"}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             fallbackElement={
                               <ArticleImage
-                                src="https://tajdeediq-001-site1.stempurl.com/uploads/images/2e18a6ef-5830-41ac-a7c8-7af1229b91c9_Food.PNG"
+                                src="/tajdeed-logo.png"
                                 alt="Food Image Fallback"
                                 className="w-full h-full object-cover"
                                 fallbackElement={
@@ -180,6 +181,7 @@ const CategoryRootPage = () => {
                   <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
                 </div>
                 <LastNewsForCategory categoryId={category.id} />
+                <InfographicsNews categoryId={category.id} className="mt-6" />
               </div>
             </div>
           </div>

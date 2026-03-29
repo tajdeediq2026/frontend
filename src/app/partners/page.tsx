@@ -77,7 +77,7 @@ export default function AdvertiseWithUsPage() {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; phone?: string; notes?: string }>({});
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065';
 
   useEffect(() => {
     const fetchDurations = async () => {

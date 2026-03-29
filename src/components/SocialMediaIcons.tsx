@@ -18,6 +18,7 @@ interface SocialMediaIconsProps {
 }
 
 function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }: SocialMediaIconsProps) {
+  const backendBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065').replace(/\/$/, '');
   const [socialMedias, setSocialMedias] = useState<SocialMedia[]>([]);
   const [loading, setLoading] = useState(true);
   const [failedImageIds, setFailedImageIds] = useState<Set<number>>(new Set());
@@ -83,7 +84,7 @@ function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }:
     <div className={`flex ${variant === 'footer' ? 'justify-center md:justify-start' : 'items-center'} ${variant === 'footer' ? 'flex-wrap gap-4' : 'gap-2'} ${className}`}>
       {socialMedias.map((socialMedia) => {
         const imageUrl = socialMedia.imagePath
-          ? `https://tajdeediq-001-site1.stempurl.com${socialMedia.imagePath}`
+          ? `${backendBase}${socialMedia.imagePath}`
           : '';
         const showImage = Boolean(imageUrl) && !failedImageIds.has(socialMedia.socialMediaId);
 

@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import DynamicCategorySection, { CategoryWithArticles } from "../../../components/DynamicCategorySection";
 import MainPicturesAlt from "../../../components/MainPicturesAlt";
 import LastNewsForCategory from "../../../components/LastNewsForCategory";
+import InfographicsNews from "../../../components/InfographicsNews";
 import Link from "next/link";
 
 const CategoryPage = () => {
@@ -184,6 +185,7 @@ const CategoryPage = () => {
             </div>
             <div className="sticky top-4">
               <LastNewsForCategory categoryId={category.id} />
+              <InfographicsNews categoryId={category.id} className="mt-6" />
             </div>
           </div>
         </div>

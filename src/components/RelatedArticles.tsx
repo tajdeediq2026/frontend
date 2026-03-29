@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { articlesApi } from "../app/lib/api";
+import { getImageUrl } from "../app/lib/imageUtils";
 import { AllArticles } from "../app/types/Articles";
 
 interface RelatedArticlesProps {
@@ -136,11 +137,7 @@ const RelatedArticles = ({
             <div className="relative w-20 h-20 flex-shrink-0 rounded overflow-hidden">
               {article.imagePath ? (
                 <Image
-                  src={
-                    article.imagePath.startsWith('http')
-                      ? article.imagePath
-                      : `https://tajdeediq-001-site1.stempurl.com${article.imagePath.startsWith('/') ? '' : '/'}${article.imagePath}`
-                  }
+                  src={getImageUrl(article.imagePath) || article.imagePath}
                   alt={article.articleTitle}
                   fill
                   className="object-cover"

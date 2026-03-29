@@ -31,18 +31,18 @@ const LastNewsForCategory = ({ categoryId, className = '' }: LastNewsForCategory
       try {
         setLoading(true);
         setError(null);
-        // Fetch articles for the given category
-        const response = await fetch(`/api/articles?categoryId=${categoryId}`);
-        if (!response.ok) {
+        const articlesResponse = await fetch(`/api/articles?categoryId=${categoryId}`);
+        if (!articlesResponse.ok) {
           throw new Error('Failed to fetch articles');
         }
-        const articlesData: Article[] = await response.json();
-        // Filter only published articles and sort by creation date (newest first)
-        const publishedArticles = articlesData
-          .filter(article => article.isPublished)
+
+        const articlesData: Article[] = await articlesResponse.json();
+
+        const combinedItems = articlesData
           .sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime())
-          .slice(0, 5); // Show only 5 articles with proper images
-        setArticles(publishedArticles);
+          .slice(0, 5);
+
+        setArticles(combinedItems);
       } catch (err) {
         console.error('Failed to fetch articles:', err);
         setError("فشل في تحميل آخر الأخبار");
@@ -89,13 +89,12 @@ const LastNewsForCategory = ({ categoryId, className = '' }: LastNewsForCategory
         <div className="space-y-4">
           {articles.map((article, index) => (
             <div key={article.id}>
-              <Link 
+              <Link
                 href={`/article/${article.id}`}
-                className="block hover:bg-gray-50 transition-colors duration-200 p-2 rounded"
+                className="block bg-gray-50 hover:bg-blue-50 transition-colors duration-200 p-2 rounded"
               >
-                <div className="flex gap-3 items-start">
-                  {/* Article Image */}
-                  <div className="w-20 h-16 flex-shrink-0 relative overflow-hidden rounded">
+                <div className="flex gap-3 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                  <div className="w-16 h-16 flex-shrink-0 relative overflow-hidden rounded">
                     <ArticleImage
                       src={article.imagePath || "/img/1.jpg"}
                       alt={article.articleTitle}
@@ -107,8 +106,6 @@ const LastNewsForCategory = ({ categoryId, className = '' }: LastNewsForCategory
                       }
                     />
                   </div>
-                  
-                  {/* Article Content */}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm text-right line-clamp-2 mb-1 text-gray-900 hover:text-primaryOther transition-colors">
                       {article.articleTitle}

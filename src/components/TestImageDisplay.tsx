@@ -10,7 +10,7 @@ interface TestImageDisplayProps {
 }
 
 const TestImageDisplay: React.FC<TestImageDisplayProps> = ({
-  imageUrl = "https://tajdeediq-001-site1.stempurl.com/uploads/images/2e18a6ef-5830-41ac-a7c8-7af1229b91c9_Food.PNG",
+  imageUrl = "/tajdeed-logo.png",
   title = "Test Image Display",
   description = "Testing image display with the provided URL"
 }) => {

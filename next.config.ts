@@ -1,18 +1,27 @@
 import type { NextConfig } from "next";
 
+const apiHost = (() => {
+  const raw = (process.env.NEXT_PUBLIC_API_URL ?? '').trim();
+  if (!raw || /^(undefined|null)$/i.test(raw)) return null;
+  try {
+    const parsed = new URL(raw);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
+    return { protocol: parsed.protocol.replace(':', ''), hostname: parsed.hostname, port: parsed.port || undefined };
+  } catch {
+    return null;
+  }
+})();
+
 const nextConfig: NextConfig = {
   /* config options here */
   // Image configuration for external domains
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'tajdeediq-001-site1.stempurl.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.tajdeediq-001-site1.stempurl.com',
-      },
+      ...(apiHost ? [{
+        protocol: apiHost.protocol as 'http' | 'https',
+        hostname: apiHost.hostname,
+        port: apiHost.port,
+      }] : []),
       {
         protocol: 'http',
         hostname: 'localhost',
