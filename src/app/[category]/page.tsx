@@ -6,6 +6,8 @@ import DynamicCategorySection, { CategoryWithArticles } from "../../components/D
 import ArticleImage from "../../components/ArticleImage";
 import LastNewsForCategory from "../../components/LastNewsForCategory";
 import InfographicsNews from "../../components/InfographicsNews";
+import VideosNews from "../../components/VideosNews";
+import PodcastsNews from "../../components/PodcastsNews";
 import Link from "next/link";
 
 const CategoryRootPage = () => {
@@ -182,6 +184,8 @@ const CategoryRootPage = () => {
                 </div>
                 <LastNewsForCategory categoryId={category.id} />
                 <InfographicsNews categoryId={category.id} className="mt-6" />
+                <VideosNews categoryId={category.id} className="mt-6" />
+                <PodcastsNews categoryId={category.id} className="mt-6" />
               </div>
             </div>
           </div>
