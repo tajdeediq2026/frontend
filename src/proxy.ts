@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getBackendBaseUrl } from '@/lib/backend-url';
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -11,7 +12,7 @@ export async function proxy(request: NextRequest) {
     if (articleId) {
       try {
         // Fetch article data to get the category and title for proper URL generation
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065';
+        const apiUrl = getBackendBaseUrl();
 
         // Create a simple fetch request to get article data
         const response = await fetch(`${apiUrl}/api/Articles/${articleId}`, {

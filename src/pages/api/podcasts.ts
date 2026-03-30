@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
+import { getBackendBaseUrl } from '@/lib/backend-url';
 
 export type Podcast = {
   podcastId: number;
@@ -14,7 +15,7 @@ export type Podcast = {
   categoryId: number;
 };
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065';
+const BASE_URL = getBackendBaseUrl();
 const PODCASTS_API_URL = `${BASE_URL}/api/Podcasts`;
 
 const axiosInstance = axios.create({

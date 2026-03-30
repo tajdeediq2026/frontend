@@ -16,7 +16,11 @@ Add these in: Settings -> Secrets and variables -> Actions
 
 In Vercel project settings, add:
 
-- NEXT_PUBLIC_API_URL=https://YOUR_BACKEND_DOMAIN
+- NEXT_PUBLIC_API_URL=https://tajdeediq-001-site1.stempurl.com
+
+Notes:
+- Use the backend base URL only (do not add /api).
+- If this variable is missing or set to placeholder values, the app now falls back to https://tajdeediq-001-site1.stempurl.com.
 
 ## Deploy
 

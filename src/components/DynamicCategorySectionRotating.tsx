@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { encodeImageUrl } from "../app/lib/imageUtils";
 
-const BACKEND_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065').replace(/\/$/, '');
+const BACKEND_BASE = (process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com').replace(/\/$/, '');
 
 export type Article = {
   id: string;

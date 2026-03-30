@@ -1,10 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 import { AllArticles, AllCategories } from '../types/Articles';
+import { getBackendBaseUrl } from '@/lib/backend-url';
 
 // On the server, call the backend directly. In the browser, use the Next.js rewrite proxy to avoid CORS.
 const BASE_URL = typeof window === 'undefined'
-  ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065')
-  : '';  // Empty string = relative URL, uses Next.js rewrites
+  ? getBackendBaseUrl()
+  : ''; // Empty string = relative URL, uses Next.js rewrites
 
 // Helper: returns the correct API path depending on server vs browser
 const apiPath = (path: string): string => {

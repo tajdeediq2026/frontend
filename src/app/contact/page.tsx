@@ -46,7 +46,7 @@ export default function ContactUsPage() {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; phone?: string; subject?: string; message?: string }>({});
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
 
   const validateForm = (): boolean => {
     const errors: { name?: string; phone?: string; subject?: string; message?: string } = {};

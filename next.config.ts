@@ -1,27 +1,48 @@
 import type { NextConfig } from "next";
 
-const apiHost = (() => {
+const FALLBACK_BACKEND_BASE_URL = 'https://tajdeediq-001-site1.stempurl.com';
+const INVALID_ENV_VALUES = /^(undefined|null|https?:\/\/YOUR_BACKEND_DOMAIN)$/i;
+
+const resolveApiBase = (): URL => {
   const raw = (process.env.NEXT_PUBLIC_API_URL ?? '').trim();
-  if (!raw || /^(undefined|null)$/i.test(raw)) return null;
+  const candidate = raw && !INVALID_ENV_VALUES.test(raw)
+    ? raw
+    : FALLBACK_BACKEND_BASE_URL;
+
   try {
-    const parsed = new URL(raw);
-    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
-    return { protocol: parsed.protocol.replace(':', ''), hostname: parsed.hostname, port: parsed.port || undefined };
+    const parsed = new URL(candidate);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+      return new URL(FALLBACK_BACKEND_BASE_URL);
+    }
+
+    if (parsed.pathname.replace(/\/+$/, '') === '/api') {
+      parsed.pathname = '';
+    }
+
+    return parsed;
   } catch {
-    return null;
+    return new URL(FALLBACK_BACKEND_BASE_URL);
   }
-})();
+};
+
+const apiBase = resolveApiBase();
+
+const apiHost = {
+  protocol: apiBase.protocol.replace(':', '') as 'http' | 'https',
+  hostname: apiBase.hostname,
+  port: apiBase.port || undefined,
+};
 
 const nextConfig: NextConfig = {
   /* config options here */
   // Image configuration for external domains
   images: {
     remotePatterns: [
-      ...(apiHost ? [{
-        protocol: apiHost.protocol as 'http' | 'https',
+      {
+        protocol: apiHost.protocol,
         hostname: apiHost.hostname,
         port: apiHost.port,
-      }] : []),
+      },
       {
         protocol: 'http',
         hostname: 'localhost',
@@ -50,24 +71,6 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
-    const rawApiBase = (process.env.NEXT_PUBLIC_API_URL ?? '').trim();
-
-    // Prevent invalid rewrites when env vars are missing or set to placeholder strings.
-    if (!rawApiBase || /^(undefined|null)$/i.test(rawApiBase)) {
-      return [];
-    }
-
-    let apiBase: URL;
-    try {
-      apiBase = new URL(rawApiBase);
-    } catch {
-      return [];
-    }
-
-    if (apiBase.protocol !== 'http:' && apiBase.protocol !== 'https:') {
-      return [];
-    }
-
     const normalizedApiBase = apiBase.toString().replace(/\/$/, '');
 
     return [

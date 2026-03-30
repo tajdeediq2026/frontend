@@ -18,7 +18,7 @@ interface SocialMediaIconsProps {
 }
 
 function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }: SocialMediaIconsProps) {
-  const backendBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:7065').replace(/\/$/, '');
+  const backendBase = (process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com').replace(/\/$/, '');
   const [socialMedias, setSocialMedias] = useState<SocialMedia[]>([]);
   const [loading, setLoading] = useState(true);
   const [failedImageIds, setFailedImageIds] = useState<Set<number>>(new Set());

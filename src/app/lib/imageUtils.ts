@@ -2,7 +2,7 @@
  * Utility functions for handling image URLs with proper encoding
  */
 
-const FALLBACK_BACKEND_URL = 'http://localhost:7065';
+const FALLBACK_BACKEND_URL = 'https://tajdeediq-001-site1.stempurl.com';
 
 const normalizeBackendImageHost = (url: string): string => {
   return url
