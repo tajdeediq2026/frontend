@@ -73,6 +73,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.error('Axios error status:', error.response?.status);
             console.error('Axios error URL:', error.config?.url);
         }
-        res.status(500).json({ error: 'Failed to fetch articles' });
+            res.status(200).json([]);
     }
 }

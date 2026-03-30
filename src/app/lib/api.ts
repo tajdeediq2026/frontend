@@ -152,14 +152,16 @@ export const articlesApi = {
   },
   getByCategory: async (categoryId: number): Promise<AllArticles[]> => {
     try {
-      const response = await apiClient.get(apiPath(`/api/Articles/category/${categoryId}`));
+      // Browser: go through the Next.js pages/api proxy (handles errors gracefully).
+      // Server-side: call backend directly via base URL.
+      const url = typeof window === 'undefined'
+        ? apiPath(`/api/Articles/Category/${categoryId}`)
+        : `/api/articles?categoryId=${categoryId}`;
+      const response = await apiClient.get(url);
       return response.data;
     } catch (error) {
-      console.error('Error fetching articles by category:', error);
-      if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
-        throw new Error('Request timeout: The API server is taking too long to respond. Please try again.');
-      }
-      throw error;
+      console.warn('Could not fetch articles for category', categoryId, '— returning empty list.', error);
+      return [];
     }
   },
   search: async (query: string): Promise<AllArticles[]> => {
