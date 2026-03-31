@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ArticleImage from "./ArticleImage";
 import { IoTimeOutline } from "react-icons/io5";
+import { getBackendBaseUrl } from "../lib/backend-url";
 
 export type Article = {
   id: string;
@@ -31,7 +32,8 @@ const LastNewsForCategory = ({ categoryId, className = '' }: LastNewsForCategory
       try {
         setLoading(true);
         setError(null);
-        const articlesResponse = await fetch(`/api/articles?categoryId=${categoryId}`);
+        const backendBase = getBackendBaseUrl();
+        const articlesResponse = await fetch(`${backendBase}/api/Articles/Category/${categoryId}`);
         if (!articlesResponse.ok) {
           throw new Error('Failed to fetch articles');
         }

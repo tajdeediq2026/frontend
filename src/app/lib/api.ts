@@ -2,18 +2,13 @@ import axios, { AxiosInstance } from 'axios';
 import { AllArticles, AllCategories } from '../types/Articles';
 import { getBackendBaseUrl } from '@/lib/backend-url';
 
-// On the server, call the backend directly. In the browser, use the Next.js rewrite proxy to avoid CORS.
-const BASE_URL = typeof window === 'undefined'
-  ? getBackendBaseUrl()
-  : ''; // Empty string = relative URL, uses Next.js rewrites
+// Always call the backend directly from both server and browser.
+// The backend CORS middleware echoes back any Origin header, so direct browser calls work fine.
+// Bypassing the Vercel rewrite proxy avoids 502 errors caused by stempurl.com blocking Vercel IP ranges.
+const BASE_URL = getBackendBaseUrl();
 
-// Helper: returns the correct API path depending on server vs browser
-const apiPath = (path: string): string => {
-  // On server: use /api/... directly (backend URL is the baseURL)
-  // On browser: use /api/backend/... (Next.js rewrites proxy it to backend)
-  if (typeof window === 'undefined') return path;
-  return path.replace(/^\/api\//, '/api/backend/');
-};
+// Helper: returns the API path (same format for server and browser, direct calls only)
+const apiPath = (path: string): string => path;
 
 // Create a dedicated axios instance with proper configuration
 const createAxiosInstance = (): AxiosInstance => {
@@ -152,11 +147,8 @@ export const articlesApi = {
   },
   getByCategory: async (categoryId: number): Promise<AllArticles[]> => {
     try {
-      // Browser: go through the Next.js pages/api proxy (handles errors gracefully).
-      // Server-side: call backend directly via base URL.
-      const url = typeof window === 'undefined'
-        ? apiPath(`/api/Articles/Category/${categoryId}`)
-        : `/api/articles?categoryId=${categoryId}`;
+      // Call backend directly for both server and browser (no Vercel proxy hop).
+      const url = apiPath(`/api/Articles/Category/${categoryId}`);
       const response = await apiClient.get(url);
       return response.data;
     } catch (error) {

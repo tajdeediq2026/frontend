@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ArticleCard, { Article } from "./ArticleCard";
+import { getBackendBaseUrl } from "../lib/backend-url";
 
 interface LastNewsProps {
   className?: string;
@@ -19,7 +20,8 @@ const LastNews = ({ className = '' }: LastNewsProps) => {
         
         console.log("LastNews - Fetching latest 9 articles from all categories");
         
-        const response = await fetch("/api/articles");
+        const backendBase = getBackendBaseUrl();
+        const response = await fetch(`${backendBase}/api/Articles`);
         if (!response.ok) {
           throw new Error('Failed to fetch articles');
         }
