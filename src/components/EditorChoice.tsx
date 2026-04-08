@@ -6,7 +6,7 @@ import { articlesApi, categoriesApi } from "../app/lib/api";
 import { AllArticles, AllCategories } from "../app/types/Articles";
 import ArticleImage from "./ArticleImage";
 import { useArabicDate } from "../hooks/useDateFormatting";
-import { IoTimeOutline } from "react-icons/io5";
+import { TimeIcon } from "./UiIcons";
 
 // Individual article row component (needs hook at top level)
 const EditorChoiceItem: React.FC<{
@@ -30,7 +30,7 @@ const EditorChoiceItem: React.FC<{
           {/* Date */}
           <div className="flex items-center justify-start gap-1 text-gray-400 text-xs mb-1.5">
             <span>{formattedDate}</span>
-            <IoTimeOutline className="w-3.5 h-3.5" />
+            <TimeIcon className="w-3.5 h-3.5" />
           </div>
           {/* Title */}
           <h3 className="text-sm font-bold text-gray-800 leading-relaxed line-clamp-2 group-hover:text-primaryOther transition-colors duration-200">

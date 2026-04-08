@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { getBackendBaseUrl } from "../lib/backend-url";
 
 type BreakingNewsItem = {
   id: number;
@@ -19,7 +20,8 @@ const BreakingNews = () => {
     const fetchBreakingNews = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/breaking-news');
+        const backendBase = getBackendBaseUrl();
+        const response = await fetch(`${backendBase}/api/BreakingNews`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

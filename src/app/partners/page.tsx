@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { getBackendBaseUrl } from '@/lib/backend-url';
 
 interface Duration {
   advertiseWithUsDurationId: number;
@@ -77,32 +78,18 @@ export default function AdvertiseWithUsPage() {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; phone?: string; notes?: string }>({});
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
+  const apiUrl = getBackendBaseUrl();
 
   useEffect(() => {
     const fetchDurations = async () => {
       try {
-        // Try proxy route first to avoid CORS issues, fallback to direct API
-        let response = await fetch('/api/backend/AdvertiseWithUsDurations');
-        if (!response.ok) {
-          response = await fetch(`${apiUrl}/api/AdvertiseWithUsDurations`);
-        }
+        const response = await fetch(`${apiUrl}/api/AdvertiseWithUsDurations`);
         if (response.ok) {
           const data = await response.json();
           setDurations(data);
         }
       } catch (err) {
         console.error('Failed to fetch durations:', err);
-        // Fallback to direct API call
-        try {
-          const response = await fetch(`${apiUrl}/api/AdvertiseWithUsDurations`);
-          if (response.ok) {
-            const data = await response.json();
-            setDurations(data);
-          }
-        } catch (fallbackErr) {
-          console.error('Fallback also failed:', fallbackErr);
-        }
       }
     };
     fetchDurations();
@@ -152,21 +139,11 @@ export default function AdvertiseWithUsPage() {
           advertiseWithUsNotes: sanitizeInput(notes),
           advertiseWithUsDurationId: durationId || null,
         });
-      // Try proxy route first to avoid CORS issues
-      let response;
-      try {
-        response = await fetch('/api/backend/AdvertiseWithUs', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: submitBody,
-        });
-      } catch {
-        response = await fetch(`${apiUrl}/api/AdvertiseWithUs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: submitBody,
-        });
-      }
+      const response = await fetch(`${apiUrl}/api/AdvertiseWithUs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: submitBody,
+      });
 
       if (response.ok) {
         setSuccess(true);

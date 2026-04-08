@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ArticleImage from "./ArticleImage";
-import { IoTimeOutline } from "react-icons/io5";
+import { TimeIcon } from "./UiIcons";
 import { getBackendBaseUrl } from "../lib/backend-url";
 
 export type Article = {
@@ -116,7 +116,7 @@ const LastNewsForCategory = ({ categoryId, className = '' }: LastNewsForCategory
                       <span className="text-xs text-gray-500">
                         {new Date(article.createdDate).toLocaleDateString('en-US')}
                       </span>
-                      <IoTimeOutline className="text-gray-500 text-xs" />
+                      <TimeIcon className="text-gray-500 text-xs w-3.5 h-3.5" />
                     </div>
                   </div>
                 </div>

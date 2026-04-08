@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createSlug } from "../app/lib/urlUtils";
 import ArticleImage from "./ArticleImage";
 import { useArabicDate } from "../hooks/useDateFormatting";
-import { IoTimeOutline } from "react-icons/io5";
+import { TimeIcon } from "./UiIcons";
 
 export type Article = {
   id: string;
@@ -99,7 +99,7 @@ const ArticleCard = ({
               <span className="text-xs text-gray-500">
                 {new Date(article.createdDate).toLocaleDateString('en-US')}
               </span>
-              <IoTimeOutline className="text-gray-500 text-xs" />
+              <TimeIcon className="text-gray-500 text-xs w-3.5 h-3.5" />
             </div>
           </div>
         </div>

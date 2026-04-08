@@ -53,6 +53,14 @@ const nextConfig: NextConfig = {
         hostname: 'localhost',
         port: '7065',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
     ],
     unoptimized: false,
   },

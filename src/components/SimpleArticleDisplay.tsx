@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { IoTimeOutline } from "react-icons/io5";
 import { getImageUrl } from "../app/lib/imageUtils";
 import { AllArticles, AllCategories } from "../app/types/Articles";
+import { TimeIcon } from "./UiIcons";
 
 interface SimpleArticleDisplayProps {
   article: AllArticles;
@@ -106,7 +106,7 @@ const SimpleArticleDisplay = ({
         {/* Metadata */}
         {showMetadata && (
           <div className="text-sm text-gray-500 mb-4 flex items-center gap-2">
-            <IoTimeOutline className="text-lg" />
+            <TimeIcon className="text-lg w-5 h-5" />
             {article.updatedDate !== article.createdDate && (
               <span>آخر تحديث: {formatDate(article.updatedDate)}</span>
             )}

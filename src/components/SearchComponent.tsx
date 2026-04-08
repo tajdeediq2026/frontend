@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { IoSearch, IoClose } from "react-icons/io5";
 import Link from "next/link";
 import { articlesApi } from "../app/lib/api";
 import { AllArticles } from "../app/types/Articles";
 import ArticleImage from "./ArticleImage";
+import { CloseIcon, SearchIcon } from "./UiIcons";
 
 // Strip HTML tags from content for display
 const stripHtml = (html: string): string => {
@@ -158,7 +158,7 @@ const SearchComponent = () => {
         aria-label="بحث"
         title="بحث"
       >
-        <IoSearch className="text-xl" />
+        <SearchIcon className="text-xl w-5 h-5" />
         <span className="hidden sm:inline text-sm">بحث</span>
       </button>
 
@@ -174,7 +174,7 @@ const SearchComponent = () => {
             {/* Search Input */}
             <form onSubmit={handleSubmit} className="flex items-center gap-3">
               <div className="flex-1 relative">
-                <IoSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
+                <SearchIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl w-5 h-5" />
                 <input
                   ref={inputRef}
                   type="text"
@@ -191,7 +191,7 @@ const SearchComponent = () => {
                 className="p-3 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
                 aria-label="إغلاق"
               >
-                <IoClose className="text-2xl" />
+                <CloseIcon className="text-2xl w-6 h-6" />
               </button>
             </form>
 
@@ -206,7 +206,7 @@ const SearchComponent = () => {
 
               {!loading && hasSearched && results.length === 0 && (
                 <div className="text-center py-8 text-gray-500">
-                  <IoSearch className="text-5xl mx-auto mb-3 text-gray-300" />
+                  <SearchIcon className="text-5xl w-12 h-12 mx-auto mb-3 text-gray-300" />
                   <p className="text-lg font-medium">لا توجد نتائج</p>
                   <p className="text-sm mt-1">حاول البحث بكلمات مختلفة</p>
                 </div>

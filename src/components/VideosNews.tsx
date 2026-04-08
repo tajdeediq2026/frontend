@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ArticleImage from "./ArticleImage";
-import { IoTimeOutline } from "react-icons/io5";
+import { TimeIcon } from "./UiIcons";
 
 type Video = {
   videoId: number;
@@ -105,7 +105,7 @@ const VideosNews = ({ className = "", categoryId }: VideosNewsProps) => {
                             <span className="text-xs text-gray-500">
                               {new Date(item.createdVideoDate).toLocaleDateString("en-US")}
                             </span>
-                            <IoTimeOutline className="text-gray-500 text-xs" />
+                            <TimeIcon className="text-gray-500 text-xs w-3.5 h-3.5" />
                           </div>
                         </div>
                       </div>

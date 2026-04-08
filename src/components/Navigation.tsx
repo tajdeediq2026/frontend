@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SearchComponent from "./SearchComponent";
+import { getBackendBaseUrl } from "../lib/backend-url";
 
 type NavigationLink = {
   id: number;
@@ -22,14 +23,24 @@ const Navigation = () => {
     const fetchLinks = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/navigation');
+        const backendBase = getBackendBaseUrl();
+        const response = await fetch(`${backendBase}/api/Categories`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         const data = await response.json();
-        setLinks(data);
+        const mapped = (Array.isArray(data) ? data : []).map(
+          (cat: { id: number; name: string; categorySlug: string; isActivated: boolean }) => ({
+            id: cat.id,
+            name: cat.name,
+            categorySlug: cat.categorySlug,
+            isActivated: cat.isActivated,
+            href: `/category/${cat.categorySlug}`,
+          })
+        );
+        setLinks(mapped);
       } catch (error) {
         console.error("Failed to fetch navigation links", error);
         

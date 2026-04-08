@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getBackendBaseUrl } from '@/lib/backend-url';
 
 // Comprehensive input sanitization to prevent XSS
 function sanitizeInput(input: string): string {
@@ -46,7 +47,7 @@ export default function ContactUsPage() {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; phone?: string; subject?: string; message?: string }>({});
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com';
+  const apiUrl = getBackendBaseUrl();
 
   const validateForm = (): boolean => {
     const errors: { name?: string; phone?: string; subject?: string; message?: string } = {};
@@ -101,20 +102,11 @@ export default function ContactUsPage() {
         contactUsPhoneMessage: sanitizeInput(message),
       });
 
-      let response;
-      try {
-        response = await fetch('/api/backend/ContactUs', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: submitBody,
-        });
-      } catch {
-        response = await fetch(`${apiUrl}/api/ContactUs`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: submitBody,
-        });
-      }
+      const response = await fetch(`${apiUrl}/api/ContactUs`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: submitBody,
+      });
 
       if (response.ok) {
         setSuccess(true);

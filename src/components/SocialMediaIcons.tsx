@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { getBackendBaseUrl } from "../lib/backend-url";
 
 type SocialMedia = {
   socialMediaId: number;
@@ -18,7 +19,7 @@ interface SocialMediaIconsProps {
 }
 
 function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }: SocialMediaIconsProps) {
-  const backendBase = (process.env.NEXT_PUBLIC_API_URL || 'https://tajdeediq-001-site1.stempurl.com').replace(/\/$/, '');
+  const backendBase = getBackendBaseUrl();
   const [socialMedias, setSocialMedias] = useState<SocialMedia[]>([]);
   const [loading, setLoading] = useState(true);
   const [failedImageIds, setFailedImageIds] = useState<Set<number>>(new Set());
@@ -36,8 +37,7 @@ function SocialMediaIcons({ className = "", iconSize = 32, variant = 'footer' }:
     const fetchSocialMedias = async () => {
       try {
         setLoading(true);
-        // Use Next.js rewrite proxy to avoid CORS in the browser
-        const response = await fetch('/api/backend/SocialMedia');
+        const response = await fetch(`${backendBase}/api/SocialMedia`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { getBackendBaseUrl } from '../lib/backend-url';
 
 type PrivacyPolicyItem = {
   id: number;
@@ -32,14 +33,8 @@ export default function PrivacyPolicySection() {
         setLoading(true);
         setError('');
 
-        let response = await fetch('/api/backend/PrivacyPolicy', { cache: 'no-store' });
-
-        if (!response.ok) {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-          if (apiUrl) {
-            response = await fetch(`${apiUrl.replace(/\/$/, '')}/api/PrivacyPolicy`, { cache: 'no-store' });
-          }
-        }
+        const backendBase = getBackendBaseUrl();
+        const response = await fetch(`${backendBase}/api/PrivacyPolicy`, { cache: 'no-store' });
 
         if (!response.ok) {
           throw new Error(`PrivacyPolicy request failed with status ${response.status}`);

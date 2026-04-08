@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { getBackendBaseUrl } from '../lib/backend-url';
 
 type AboutUsItem = {
   id: number;
@@ -34,15 +35,8 @@ export default function AboutUsSection() {
         setLoading(true);
         setError('');
 
-        let response = await fetch('/api/backend/AboutUs', { cache: 'no-store' });
-
-        // Fallback to direct API if local proxy/rewrite isn't available.
-        if (!response.ok) {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-          if (apiUrl) {
-            response = await fetch(`${apiUrl.replace(/\/$/, '')}/api/AboutUs`, { cache: 'no-store' });
-          }
-        }
+        const backendBase = getBackendBaseUrl();
+        const response = await fetch(`${backendBase}/api/AboutUs`, { cache: 'no-store' });
 
         if (!response.ok) {
           throw new Error(`AboutUs request failed with status ${response.status}`);

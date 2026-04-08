@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import SocialMediaIcons from "./SocialMediaIcons";
+import { getBackendBaseUrl } from "../lib/backend-url";
 
 type CategoryLink = {
   id: number;
@@ -20,7 +21,8 @@ function Footer() {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/navigation');
+        const backendBase = getBackendBaseUrl();
+        const response = await fetch(`${backendBase}/api/Categories`);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -29,10 +31,12 @@ function Footer() {
         const data = await response.json();
         console.log('Footer categories data fetched:', data);
         
-        // Filter out non-category links (home, about, contact, advertise)
-        const categoryLinks = data.filter((link: CategoryLink) => 
-          link.id !== 0 && link.id !== 997 && link.id !== 998 && link.id !== 999
-        );
+        const categoryLinks = (Array.isArray(data) ? data : [])
+          .filter((cat: CategoryLink) => cat.isActivated)
+          .map((cat: CategoryLink) => ({
+            ...cat,
+            href: `/category/${cat.categorySlug}`,
+          }));
         
         setCategories(categoryLinks);
       } catch (error) {

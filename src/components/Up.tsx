@@ -1,9 +1,9 @@
 'use client'
 import Image from "next/image";
 import React from "react";
-import { IoMdTime } from "react-icons/io";
 import { useCurrentDate } from "../hooks/useDateFormatting";
 import SocialMediaIcons from "./SocialMediaIcons";
+import { TimeIcon } from "./UiIcons";
 
 function Up() {
   const currentDate = useCurrentDate({
@@ -48,7 +48,7 @@ function Up() {
         <div className="flex flex-col items-center md:items-end space-y-1 md:space-y-2 order-3">
           <div className="flex items-center gap-2 text-gray-600">
             <span className="text-sm md:text-lg font-medium">{currentDate}</span>
-            <IoMdTime className="text-sm md:text-lg" />
+            <TimeIcon className="text-sm md:text-lg w-4 h-4 md:w-5 md:h-5" />
           </div>
           <div>
             <SocialMediaIcons className="flex items-center gap-1 sm:gap-2 mt-1 md:mt-3" iconSize={28} variant="header" />

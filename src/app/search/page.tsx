@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { IoSearch } from "react-icons/io5";
 import Link from "next/link";
 import { articlesApi } from "../lib/api";
 import { AllArticles } from "../types/Articles";
 import ArticleImage from "../../components/ArticleImage";
+import { SearchIcon } from "../../components/UiIcons";
 
 // Strip HTML tags from content for display
 const stripHtml = (html: string): string => {
@@ -88,7 +88,7 @@ function SearchResultsContent() {
         <h1 className="text-3xl font-bold text-gray-900 mb-4">نتائج البحث</h1>
         <form onSubmit={handleSearch} className="max-w-2xl">
           <div className="relative">
-            <IoSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
+            <SearchIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl w-5 h-5" />
             <input
               type="text"
               value={searchQuery}
@@ -118,7 +118,7 @@ function SearchResultsContent() {
       {/* No Results */}
       {!loading && q && results.length === 0 && (
         <div className="text-center py-16">
-          <IoSearch className="text-7xl mx-auto mb-4 text-gray-300" />
+          <SearchIcon className="text-7xl w-16 h-16 mx-auto mb-4 text-gray-300" />
           <p className="text-2xl font-bold text-gray-700 mb-2">لا توجد نتائج</p>
           <p className="text-gray-500">
             لم نجد مقالات تتطابق مع &quot;{q}&quot;
