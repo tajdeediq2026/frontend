@@ -199,7 +199,7 @@ function SearchResultsContent() {
       {/* Empty State (no query) */}
       {!loading && !q && (
         <div className="text-center py-16">
-          <IoSearch className="text-7xl mx-auto mb-4 text-gray-300" />
+          <SearchIcon className="w-24 h-24 mx-auto mb-4 text-gray-300" />
           <p className="text-xl text-gray-500">اكتب كلمة للبحث في المقالات</p>
         </div>
       )}

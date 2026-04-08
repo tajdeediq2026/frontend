@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import Up from "@/components/Up";
 import BreakingNews from "@/components/BreakingNews";
+import { ThemeProvider } from "@/lib/theme";
 
 const inter = localFont({
   src: [
@@ -53,19 +54,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <head>
+        {/* Prevent flash of unstyled content on theme change */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const initialTheme = theme || (prefersDark ? 'dark' : 'light');
+                if (initialTheme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > */}
       <body className={inter.className}>
-        <Up />
-        <Navigation />
-        <BreakingNews />
+        <ThemeProvider>
+          <Up />
+          <Navigation />
+          <BreakingNews />
 
-        {/* <OtherCategories /> */}
-        {/* <MainPictures /> */}
-        {children}
-        <Footer />
+          {/* <OtherCategories /> */}
+          {/* <MainPictures /> */}
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

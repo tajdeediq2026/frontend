@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SearchComponent from "./SearchComponent";
+import { ThemeToggle } from "./ThemeToggle";
 import { getBackendBaseUrl } from "../lib/backend-url";
 
 type NavigationLink = {
@@ -81,6 +82,10 @@ const Navigation = () => {
               </li>
             ))
           )}
+          {/* Theme Toggle */}
+          <li className="p-2 text-white">
+            <ThemeToggle />
+          </li>
           {/* Search Button */}
           <li className="mr-auto">
             <SearchComponent />
@@ -126,6 +131,10 @@ const Navigation = () => {
                   </li>
                 ))
               )}
+              {/* Theme Toggle for Mobile */}
+              <li className="px-3 py-2 flex items-center justify-end">
+                <ThemeToggle />
+              </li>
             </ul>
           </div>
         )}

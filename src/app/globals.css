@@ -8,17 +8,16 @@
   --primary-other: oklch(52.7% 0.154 150.069);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Line clamp utilities */
@@ -445,5 +444,96 @@ body {
   .rotate-to-bottom-left,
   .rotate-to-bottom-right {
     animation-duration: 0.8s;
+  }
+}
+
+/* Dark Mode Styles */
+.dark {
+  background-color: #0a0a0a;
+  color: #ededed;
+}
+
+.dark body {
+  background-color: #0a0a0a;
+  color: #ededed;
+}
+
+.dark a {
+  color: oklch(52.7% 0.154 150.069);
+}
+
+.dark a:hover {
+  color: oklch(62.7% 0.154 150.069);
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #1a1a1a;
+  color: #ededed;
+  border-color: #333;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: oklch(52.7% 0.154 150.069);
+  background-color: #222;
+}
+
+.dark button {
+  transition: all 0.3s ease;
+}
+
+.dark .bg-white {
+  background-color: #1a1a1a;
+  color: #ededed;
+}
+
+.dark .text-gray-800 {
+  color: #ededed;
+}
+
+.dark .text-gray-600 {
+  color: #a0a0a0;
+}
+
+.dark .border-gray-200 {
+  border-color: #333;
+}
+
+.dark .shadow-sm,
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-lg {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 10px 15px rgba(0, 0, 0, 0.4);
+}
+
+.dark .category-card {
+  background-color: #1a1a1a;
+  color: #ededed;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .category-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: oklch(52.7% 0.154 150.069);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: oklch(62.7% 0.154 150.069);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    scroll-behavior: smooth;
   }
 }
