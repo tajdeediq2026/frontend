@@ -96,15 +96,23 @@ function getYouTubeThumbnail(videoUrl?: string | null): string | null {
 const PoliticalMemorySection = ({ className = "" }: PoliticalMemorySectionProps) => {
   const [items, setItems] = useState<PoliticalMemoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPoliticalMemory = async () => {
       try {
         setLoading(true);
+        setError(null);
         const backendBase = getBackendBaseUrl();
-        const response = await fetch(`${backendBase}/api/PoliticalMemory`, { cache: "no-store" });
+        let response = await fetch(`${backendBase}/api/PoliticalMemory`, { cache: "no-store" });
+
+        // Fallback path in case a deployment/network policy blocks direct calls.
+        if (!response.ok) {
+          response = await fetch(`/api/backend/PoliticalMemory`, { cache: "no-store" });
+        }
 
         if (!response.ok) {
+          setError("تعذر تحميل الذاكرة السياسية حالياً");
           setItems([]);
           return;
         }
@@ -121,6 +129,7 @@ const PoliticalMemorySection = ({ className = "" }: PoliticalMemorySectionProps)
 
         setItems(published);
       } catch {
+        setError("تعذر تحميل الذاكرة السياسية حالياً");
         setItems([]);
       } finally {
         setLoading(false);
@@ -129,10 +138,6 @@ const PoliticalMemorySection = ({ className = "" }: PoliticalMemorySectionProps)
 
     fetchPoliticalMemory();
   }, []);
-
-  if (!loading && items.length === 0) {
-    return null;
-  }
 
   return (
     <div className={className}>
@@ -150,7 +155,15 @@ const PoliticalMemorySection = ({ className = "" }: PoliticalMemorySectionProps)
             <div className="text-center py-8 text-sm text-gray-500">جاري التحميل...</div>
           )}
 
-          {!loading &&
+          {!loading && error && (
+            <div className="text-center py-8 text-sm text-red-500">{error}</div>
+          )}
+
+          {!loading && !error && items.length === 0 && (
+            <div className="text-center py-8 text-sm text-gray-500">لا توجد عناصر منشورة حالياً</div>
+          )}
+
+          {!loading && !error &&
             items.map((item, index) => {
               const videoUrl = extractVideoUrl(item.politicalMemoryFrameContent);
               const thumbnailSrc = item.politicalMemoryImagePath || getYouTubeThumbnail(videoUrl);
