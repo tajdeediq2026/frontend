@@ -5,7 +5,7 @@ import Link from "next/link";
 import SimpleArticleDisplay from "./SimpleArticleDisplay";
 import SocialMediaIcons from "./SocialMediaIcons";
 import RelatedArticles from "./RelatedArticles";
-import { articlesApi, categoriesApi } from "../app/lib/api";
+import { articlesApi, authorArticlesApi, categoriesApi } from "../app/lib/api";
 import { AllArticles, AllCategories } from "../app/types/Articles";
 
 interface ArticleLayoutProps {
@@ -71,21 +71,27 @@ const ArticleLayout = ({
           return;
         }
 
-        // Fetch all articles to find the one with matching ID
-        const allArticles = await articlesApi.getAll();
-        const foundArticle = allArticles.find((a: AllArticles) => a.id === articleId && a.isPublished);
-        
-        if (!foundArticle) {
-          setError("المقال غير موجود");
-          return;
-        }
-
         // Fetch all categories to find the category
         const allCategories = await categoriesApi.getAll();
-        const foundCategory = allCategories.find((c: AllCategories) => c.categorySlug === categorySlug || c.id === foundArticle.categoryId);
+        const foundCategory = allCategories.find((c: AllCategories) => c.categorySlug === categorySlug);
         
         if (!foundCategory) {
           setError("القسم غير موجود");
+          return;
+        }
+
+        let foundArticle: AllArticles | undefined;
+
+        if (categorySlug === "opinions") {
+          const opinionArticles = await authorArticlesApi.getAll(foundCategory.id);
+          foundArticle = opinionArticles.find((a: AllArticles) => a.id === articleId && a.isPublished);
+        } else {
+          const allArticles = await articlesApi.getAll();
+          foundArticle = allArticles.find((a: AllArticles) => a.id === articleId && a.isPublished);
+        }
+
+        if (!foundArticle) {
+          setError("المقال غير موجود");
           return;
         }
 

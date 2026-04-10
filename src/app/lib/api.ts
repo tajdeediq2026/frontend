@@ -214,6 +214,21 @@ export const articlesApi = {
   },
 };
 
+export const authorArticlesApi = {
+  getAll: async (opinionsCategoryId = 11): Promise<AllArticles[]> => {
+    const response = await apiClient.get('/api/author-articles', {
+      params: { opinionsCategoryId },
+    });
+    return response.data;
+  },
+  getById: async (id: string, opinionsCategoryId = 11): Promise<AllArticles> => {
+    const response = await apiClient.get(`/api/author-articles/${id}`, {
+      params: { opinionsCategoryId },
+    });
+    return response.data;
+  },
+};
+
 // Social Media API
 export const socialMediaApi = {
   getAll: async () => {

@@ -31,7 +31,20 @@ const CategoryRootPage = () => {
           setError("التصنيف غير موجود");
           return;
         }
-        setCategory(foundCategory);
+        if (categorySlug === 'opinions') {
+          const opinionsResponse = await fetch(`/api/author-articles?opinionsCategoryId=${foundCategory.id}`);
+          if (!opinionsResponse.ok) {
+            throw new Error('فشل في تحميل مقالات الرأي');
+          }
+
+          const opinionsArticles = await opinionsResponse.json();
+          setCategory({
+            ...foundCategory,
+            articles: Array.isArray(opinionsArticles) ? opinionsArticles : [],
+          });
+        } else {
+          setCategory(foundCategory);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'حدث خطأ غير متوقع');
         console.error('Error fetching category:', err);
@@ -118,7 +131,7 @@ const CategoryRootPage = () => {
                     {category.articles.slice(5).map((article) => (
                       <Link
                         key={article.id}
-                        href={`/article/${article.id}`}
+                        href={`/${category.categorySlug}/${article.id}`}
                         className="group flex flex-col bg-white rounded-lg sm:rounded-xl category-card overflow-hidden shadow-md hover:shadow-lg transition-shadow h-full"
                       >
                         <div className="aspect-video sm:aspect-[4/3] relative overflow-hidden">

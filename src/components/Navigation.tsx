@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SearchComponent from "./SearchComponent";
-import { ThemeToggle } from "./ThemeToggle";
-import { getBackendBaseUrl } from "../lib/backend-url";
 
 type NavigationLink = {
   id: number;
@@ -24,8 +22,7 @@ const Navigation = () => {
     const fetchLinks = async () => {
       try {
         setLoading(true);
-        const backendBase = getBackendBaseUrl();
-        const response = await fetch(`${backendBase}/api/Categories`);
+        const response = await fetch("/api/navigation");
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -37,8 +34,8 @@ const Navigation = () => {
             id: cat.id,
             name: cat.name,
             categorySlug: cat.categorySlug,
-            isActivated: cat.isActivated,
-            href: `/category/${cat.categorySlug}`,
+            isActivated: cat.isActivated ?? true,
+            href: (cat as { href?: string }).href || `/category/${cat.categorySlug}`,
           })
         );
         setLinks(mapped);
@@ -48,9 +45,6 @@ const Navigation = () => {
         // Fallback to static links if API fails
         const fallbackLinks = [
           { id: 0, name: "الرئيسية", categorySlug: "home", isActivated: true, href: "/" },
-          { id: 997, name: "أعلن معنا", categorySlug: "partners", isActivated: true, href: "/partners" },
-          { id: 998, name: "عن جريدة تجديد", categorySlug: "about", isActivated: true, href: "/about" },
-          { id: 999, name: "تواصل معنا", categorySlug: "contact", isActivated: true, href: "/contact" }
         ];
         setLinks(fallbackLinks);
       } finally {
@@ -82,10 +76,6 @@ const Navigation = () => {
               </li>
             ))
           )}
-          {/* Theme Toggle */}
-          <li className="p-2 text-white">
-            <ThemeToggle />
-          </li>
           {/* Search Button */}
           <li className="mr-auto">
             <SearchComponent />
@@ -131,10 +121,6 @@ const Navigation = () => {
                   </li>
                 ))
               )}
-              {/* Theme Toggle for Mobile */}
-              <li className="px-3 py-2 flex items-center justify-end">
-                <ThemeToggle />
-              </li>
             </ul>
           </div>
         )}

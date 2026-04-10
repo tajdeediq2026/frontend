@@ -7,6 +7,7 @@ import { AllCategories } from '../app/types/Articles';
 import LastNews from './LastNews';
 import EditorChoice from './EditorChoice';
 import PoliticalMemorySection from './PoliticalMemorySection';
+import OpinionsSidebar from './OpinionsSidebar';
 
 const Middle: React.FC = () => {
   const [categories, setCategories] = useState<AllCategories[]>([]);
@@ -79,7 +80,7 @@ const Middle: React.FC = () => {
     );
   }
 
-  const activatedCategories = categories.filter(cat => cat.isActivated);
+  const activatedCategories = categories.filter(cat => cat.isActivated && cat.categorySlug !== 'opinions');
 
   if (activatedCategories.length === 0) {
     return (
@@ -103,16 +104,17 @@ const Middle: React.FC = () => {
             ))}
           </div>
           
-          {/* Right Sidebar - Last News */}
+          {/* Right Sidebar */}
           <div className="col-span-12 lg:col-span-3">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
-              <div className="text-primaryOther mx-2">
-                <p className="text-xs sm:text-sm font-semibold">آخر الأخبار</p>
-              </div>
-              <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
-            </div>
             <div className="sticky top-4">
+              <OpinionsSidebar className="mb-6" />
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
+                <div className="text-primaryOther mx-2">
+                  <p className="text-xs sm:text-sm font-semibold">آخر الأخبار</p>
+                </div>
+                <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
+              </div>
               <LastNews />
               <div className="mt-6">
                 <PoliticalMemorySection />
