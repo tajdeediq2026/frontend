@@ -6,7 +6,7 @@ import Image from 'next/image';
 // For blob image support
 import { useRef } from 'react';
 import { articlesApi, getCategories } from '../app/lib/api';
-import { AllArticles } from '../app/types/Articles';
+import { AllArticles, AllCategories } from '../app/types/Articles';
 import { encodeImageUrl } from '../app/lib/imageUtils';
 import { formatDateArabic } from '../app/lib/hijriUtils';
 
@@ -17,10 +17,19 @@ interface OtherCategoriesProps {
 
 const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit = 6 }) => {
   const [articles, setArticles] = useState<AllArticles[]>([]);
+  const [categorySlugMap, setCategorySlugMap] = useState<Record<number, string>>({});
   // Removed unused categories state
   const [loading, setLoading] = useState(true);
   const [imageBlobs, setImageBlobs] = useState<{ [key: string]: string }>({});
   const fetchedImages = useRef<{ [key: string]: boolean }>({});
+
+  const getArticleHref = (article: AllArticles): string => {
+    const categorySlug = categorySlugMap[article.categoryId];
+    if (categorySlug) {
+      return `/${categorySlug}/${article.id}`;
+    }
+    return `/article/${article.id}`;
+  };
   // Fetch images as blobs for localhost
   useEffect(() => {
     const fetchImages = async () => {
@@ -60,8 +69,18 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
       try {
         setLoading(true);
         
-        // Fetch categories first (removed unused categories state)
-        await getCategories();
+        // Fetch categories first and map categoryId -> categorySlug for route generation
+        const categoriesData = await getCategories();
+        const slugMap = (Array.isArray(categoriesData) ? categoriesData : []).reduce<Record<number, string>>(
+          (acc, category: AllCategories) => {
+            if (category?.id && category?.categorySlug) {
+              acc[category.id] = category.categorySlug;
+            }
+            return acc;
+          },
+          {}
+        );
+        setCategorySlugMap(slugMap);
         
         // Then fetch articles
         let articlesData: AllArticles[];
@@ -113,7 +132,7 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
         {articles.slice(0, limit).map((article) => (
           <Link
             key={article.id}
-            href={`/${article.categoryId}/${article.id}`}
+            href={getArticleHref(article)}
             className="block"
           >
             <div className="bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 cursor-pointer">
@@ -142,7 +161,7 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                     
                     {/* Article title overlay on image */}
                     <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                      <h3 className="text-white font-bold text-base sm:text-lg md:text-xl leading-[1.35] sm:leading-[1.4] text-right line-clamp-2 article-title-shadow-soft">
+                      <h3 className="text-white font-bold text-base sm:text-lg md:text-xl leading-[1.35] sm:leading-[1.4] text-right line-clamp-2 article-title-shadow-soft article-title-font">
                         {article.articleTitle}
                       </h3>
                     </div>
@@ -161,7 +180,7 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                     </div>
                     
                     {/* Article summary */}
-                    <p className="text-gray-700 text-sm text-right line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
+                    <p className="text-gray-700 text-sm text-right line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden article-summary-font">
                       {article.articleSummary}
                     </p>
                   </div>
@@ -172,7 +191,7 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                     <span className="text-gray-400">لا توجد صورة</span>
                     {/* Title overlay even for placeholder */}
                     <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                      <h3 className="text-white font-bold text-base sm:text-lg md:text-xl leading-[1.35] sm:leading-[1.4] text-right line-clamp-2 article-title-shadow-soft">
+                      <h3 className="text-white font-bold text-base sm:text-lg md:text-xl leading-[1.35] sm:leading-[1.4] text-right line-clamp-2 article-title-shadow-soft article-title-font">
                         {article.articleTitle}
                       </h3>
                     </div>
@@ -191,7 +210,7 @@ const OtherCategories: React.FC<OtherCategoriesProps> = ({ categoryFilter, limit
                     </div>
                     
                     {/* Article summary */}
-                    <p className="text-gray-700 text-sm text-right line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
+                    <p className="text-gray-700 text-sm text-right line-clamp-2 leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden article-summary-font">
                       {article.articleSummary}
                     </p>
                   </div>

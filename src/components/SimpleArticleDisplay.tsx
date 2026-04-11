@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { getImageUrl } from "../app/lib/imageUtils";
 import { AllArticles, AllCategories } from "../app/types/Articles";
 import { TimeIcon } from "./UiIcons";
+import ArticleImage from "./ArticleImage";
 
 interface SimpleArticleDisplayProps {
   article: AllArticles;
@@ -26,17 +26,8 @@ const SimpleArticleDisplay = ({
   showCategoryBadge = true
 }: SimpleArticleDisplayProps) => {
   const router = useRouter();
-  const [imgSrc, setImgSrc] = useState<string>("");
   const [fontSize, setFontSize] = useState(18);
   const contentRef = useRef<HTMLDivElement | null>(null);
-
-  const FALLBACK_IMAGE_SVG =
-    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'%3E%3Crect width='100%25' height='100%25' fill='%23d1d5db'/%3E%3C/svg%3E";
-
-  useEffect(() => {
-    const normalized = getImageUrl(article.imagePath);
-    setImgSrc(normalized ?? "");
-  }, [article.imagePath]);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -74,27 +65,18 @@ const SimpleArticleDisplay = ({
       {/* Article Image with Title Overlay */}
       {showImage && (
         <div className="relative w-full h-64 md:h-96">
-          {imgSrc ? (
-            <img
-              src={imgSrc}
-              alt={article.articleTitle}
-              className="object-cover w-full h-full"
-              loading="eager"
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.onerror = null;
-                target.src = FALLBACK_IMAGE_SVG;
-              }}
-            />
-          ) : (
-            <div className="w-full h-full bg-gray-300" />
-          )}
+          <ArticleImage
+            src={article.imagePath || undefined}
+            alt={article.articleTitle}
+            className="object-cover"
+            fallbackElement={<div className="w-full h-full bg-gray-300" />}
+          />
           {/* Dark overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
           
           {/* Title Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-            <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg">
+            <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg article-title-font">
               {article.articleTitle}
             </h1>
           </div>
@@ -116,7 +98,7 @@ const SimpleArticleDisplay = ({
         {/* Summary */}
         {showSummary && article.articleSummary && (
           <div className="text-lg text-gray-700 mb-6 p-4 bg-gray-50 rounded-lg border-r-4 border-primaryOther">
-            <p className="font-semibold">{article.articleSummary}</p>
+            <p className="font-semibold article-summary-font">{article.articleSummary}</p>
           </div>
         )}
 
@@ -146,7 +128,7 @@ const SimpleArticleDisplay = ({
         {/* Full Content */}
         {showFullContent && (
           <div 
-            className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
+            className="prose prose-lg max-w-none text-gray-800 leading-relaxed article-content-light"
             ref={contentRef}
             dangerouslySetInnerHTML={{ __html: article.articleContent }}
           />

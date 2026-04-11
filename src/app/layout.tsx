@@ -9,22 +9,71 @@ import Navigation from "@/components/Navigation";
 import Up from "@/components/Up";
 import BreakingNews from "@/components/BreakingNews";
 
-const inter = localFont({
+const alJazeera = localFont({
   src: [
     {
-      path: "../app/fonts/ArbFONTS-Al-Jazeera-Arabic-Bold.ttf",
+      path: "./fonts/Al-Jazeera-Arabic-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Al-Jazeera-Arabic-Regular.ttf",
       weight: "400",
       style: "normal",
     },
-    // {
-    //   path: "../public/fonts/Inter-Bold.woff2",
-    //   weight: "700",
-    //   style: "normal",
-    // },
+    {
+      path: "./fonts/Al-Jazeera-Arabic-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Al-Jazeera-Arabic-Bold-1.ttf",
+      weight: "800",
+      style: "normal",
+    },
   ],
-  variable: "--font-inter", // Optional: Use in Tailwind
+  variable: "--font-aljazeera",
   display: "swap",
-  preload: false,
+  preload: true,
+});
+
+const alJazeeraBold = localFont({
+  src: [
+    {
+      path: "./fonts/Al-Jazeera-Arabic-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-aljazeera-bold",
+  display: "swap",
+  preload: true,
+});
+
+const alJazeeraRegular = localFont({
+  src: [
+    {
+      path: "./fonts/Al-Jazeera-Arabic-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-aljazeera-regular",
+  display: "swap",
+  preload: true,
+});
+
+const alJazeeraLight = localFont({
+  src: [
+    {
+      path: "./fonts/Al-Jazeera-Arabic-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+  ],
+  variable: "--font-aljazeera-light",
+  display: "swap",
+  preload: true,
 });
 
 // const geistSans = localFont({
@@ -57,7 +106,7 @@ export default function RootLayout({
       {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > */}
-      <body className={inter.className}>
+      <body className={`${alJazeera.variable} ${alJazeeraBold.variable} ${alJazeeraRegular.variable} ${alJazeeraLight.variable}`}>
         <Up />
         <Navigation />
         <BreakingNews />

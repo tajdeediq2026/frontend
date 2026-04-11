@@ -205,7 +205,7 @@ const BigArticleCard = ({ article, categorySlug, isAnimating = false, isNew = fa
         {/* Light overlay for text contrast only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10" />
         <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6 z-20">
-          <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl line-clamp-2 leading-tight text-white font-bold article-title-shadow">
+          <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl line-clamp-2 leading-tight text-white font-bold article-title-shadow article-title-font">
             {article.articleTitle}
           </h3>
           {isNew && (
@@ -269,7 +269,7 @@ const SmallArticleCard = ({ article, categorySlug, isAnimating = false, position
         {/* Light overlay for text contrast only */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent z-10" />
         <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 z-20">
-          <h4 className="text-xs sm:text-sm md:text-base line-clamp-2 leading-tight text-white font-bold article-title-shadow">
+          <h4 className="text-xs sm:text-sm md:text-base line-clamp-2 leading-tight text-white font-bold article-title-shadow article-title-font">
             {article.articleTitle}
           </h4>
           {isAnimating && (

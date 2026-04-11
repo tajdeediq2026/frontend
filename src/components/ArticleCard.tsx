@@ -58,7 +58,7 @@ const ArticleCard = ({
         className="block px-2 py-2 hover:bg-gray-100 rounded text-sm"
         onClick={handleClick}
       >
-        <div className="font-medium line-clamp-2 text-right">
+        <div className="font-medium line-clamp-2 text-right article-title-font">
           {article.articleTitle}
         </div>
         <div className="text-xs text-gray-500 mt-1">
@@ -92,7 +92,7 @@ const ArticleCard = ({
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm text-right line-clamp-2 mb-1 hover:text-blue-600 transition-colors">
+            <h3 className="font-semibold text-sm text-right line-clamp-2 mb-1 hover:text-blue-600 transition-colors article-title-font">
               {article.articleTitle}
             </h3>
             <div className="flex items-center gap-1 justify-end">
@@ -128,7 +128,7 @@ const ArticleCard = ({
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent z-10" />
               {/* Article title on image */}
               <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 z-20">
-                <h2 className="text-base sm:text-lg font-bold text-right line-clamp-2 text-white article-title-shadow">
+                <h2 className="text-base sm:text-lg font-bold text-right line-clamp-2 text-white article-title-shadow article-title-font">
                   {article.articleTitle}
                 </h2>
               </div>
@@ -139,7 +139,7 @@ const ArticleCard = ({
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span>{formattedDate}</span>
               </div>
-              <p className="text-gray-600 text-right line-clamp-2 text-xs sm:text-sm leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
+              <p className="text-gray-600 text-right line-clamp-2 text-xs sm:text-sm leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden article-summary-font">
                 {article.articleSummary}
               </p>
             </div>
@@ -147,10 +147,10 @@ const ArticleCard = ({
         )}
         {(!showImage || !article.imagePath || article.imagePath.trim() === '') && (
           <div className="p-4">
-            <h2 className="text-xl font-semibold mb-2 text-right line-clamp-2">
+            <h2 className="text-xl font-semibold mb-2 text-right line-clamp-2 article-title-font">
               {article.articleTitle}
             </h2>
-            <p className="text-gray-600 mb-4 text-right line-clamp-2 text-sm leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden">
+            <p className="text-gray-600 mb-4 text-right line-clamp-2 text-sm leading-5 sm:leading-6 min-h-10 sm:min-h-12 overflow-hidden article-summary-font">
               {article.articleSummary}
             </p>
             <span className="text-sm text-gray-500">

@@ -55,7 +55,7 @@ const OpinionsSidebar = ({ className = "" }: OpinionsSidebarProps) => {
         <div className="w-10 h-1 bg-primaryOther rounded-sm"></div>
         <Link
           href="/opinions"
-          className="text-primaryOther font-bold text-sm mx-2 hover:underline"
+          className="text-primaryOther font-bold text-sm mx-2 hover:underline article-title-font"
         >
           مقالات الرأي
         </Link>
@@ -100,7 +100,7 @@ const OpinionsSidebar = ({ className = "" }: OpinionsSidebarProps) => {
                   )}
                   {/* Text */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2 text-right">
+                    <p className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2 text-right article-title-font">
                       {article.articleTitle}
                     </p>
                     {article.authorName && (
