@@ -24,26 +24,24 @@ const EditorChoiceItem: React.FC<{
 
   return (
     <Link href={getArticleUrl()} className="block group">
-      <div className="flex gap-3 items-start py-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50/50 transition-colors duration-200 rounded-md px-1">
-        {/* Text Content - Right side (RTL) */}
-        <div className="flex-1 min-w-0 text-right">
-          {/* Date */}
-          <div className="flex items-center justify-start gap-1 text-gray-400 text-xs mb-1.5">
-            <span>{formattedDate}</span>
-            <TimeIcon className="w-3.5 h-3.5" />
-          </div>
-          {/* Title */}
-          <h3 className="text-sm font-bold text-gray-800 leading-relaxed line-clamp-2 group-hover:text-primaryOther transition-colors duration-200">
-            {article.articleTitle}
-          </h3>
-        </div>
-        {/* Image - Left side (RTL) */}
-        <div className="w-24 h-20 flex-shrink-0 rounded-lg overflow-hidden shadow-sm">
+      <div className="py-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50/50 transition-colors duration-200 rounded-md px-1">
+        <div className="relative h-24 rounded-lg overflow-hidden shadow-sm">
           <ArticleImage
             src={article.imagePath}
             alt={article.articleTitle || "مقال"}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-2">
+            <h3 className="text-sm font-bold text-white leading-relaxed line-clamp-2 article-title-shadow-soft">
+              {article.articleTitle}
+            </h3>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-start gap-1 text-gray-400 text-xs mt-2 text-right">
+          <span>{formattedDate}</span>
+          <TimeIcon className="w-3.5 h-3.5" />
         </div>
       </div>
     </Link>

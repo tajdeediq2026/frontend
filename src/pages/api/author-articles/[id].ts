@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
 import { getBackendBaseUrl } from '@/lib/backend-url';
+import { setNoStoreHeaders } from '../_utils/cache';
 
 type BackendAuthorArticle = {
   authorArticleId: string;
@@ -59,6 +60,7 @@ function toOpinionArticle(item: BackendAuthorArticle, opinionsCategoryId: number
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  setNoStoreHeaders(res);
   const { id } = req.query;
   const opinionsCategoryId = Number(req.query.opinionsCategoryId ?? 11);
 

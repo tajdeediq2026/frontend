@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
 import { getBackendBaseUrl } from '@/lib/backend-url';
+import { setNoStoreHeaders } from './_utils/cache';
 
 export type BreakingNews = {
     id: number;
@@ -23,6 +24,7 @@ const axiosInstance = axios.create({
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    setNoStoreHeaders(res);
     try {
         console.log('Breaking News API - Fetching from:', BREAKING_NEWS_API_URL);
 

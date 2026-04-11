@@ -64,19 +64,19 @@ const SimpleArticleDisplay = ({
 
       {/* Article Image with Title Overlay */}
       {showImage && (
-        <div className="relative w-full h-64 md:h-96">
+        <div className="relative w-full h-64 md:h-96 overflow-hidden">
           <ArticleImage
             src={article.imagePath || undefined}
             alt={article.articleTitle}
-            className="object-cover"
+            className="object-cover z-0"
             fallbackElement={<div className="w-full h-full bg-gray-300" />}
           />
           {/* Dark overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10"></div>
           
           {/* Title Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-            <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 leading-tight drop-shadow-lg article-title-font">
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-20">
+            <h1 className="text-xl md:text-3xl font-bold text-white mb-2 leading-tight article-title-shadow article-title-font">
               {article.articleTitle}
             </h1>
           </div>

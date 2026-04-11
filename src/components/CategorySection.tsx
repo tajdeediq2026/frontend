@@ -140,7 +140,7 @@ const ArticleCard = ({ article, variant }: ArticleCardProps) => {
             />
             <div className="absolute inset-0 article-card-overlay" />
             <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 text-white">
-              <h3 className="text-base sm:text-xl font-bold mb-2 sm:mb-3 line-clamp-2 article-title-featured">
+              <h3 className="text-base sm:text-xl font-bold mb-2 sm:mb-3 line-clamp-2 article-title-featured article-title-font article-title-shadow">
                 {article.articleTitle}
               </h3>
               <div className="flex items-center justify-between text-xs text-gray-300">
@@ -191,11 +191,14 @@ const ArticleCard = ({ article, variant }: ArticleCardProps) => {
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+            <h4 className="text-white font-bold text-sm sm:text-base line-clamp-2 leading-tight article-title-font article-title-shadow-soft">
+              {article.articleTitle}
+            </h4>
+          </div>
         </div>
         <div className="p-3 sm:p-4 flex-1 flex flex-col">
-          <h4 className="font-semibold text-sm sm:text-base line-clamp-2 mb-1.5 sm:mb-2 group-hover:text-primaryOther transition-colors article-title-standard">
-            {article.articleTitle}
-          </h4>
           <div className="flex items-center gap-1 text-xs text-gray-400 mb-1.5">
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             <span>{formatDate(article.createdDate)}</span>

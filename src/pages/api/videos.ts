@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
 import { getBackendBaseUrl } from '@/lib/backend-url';
+import { setNoStoreHeaders } from './_utils/cache';
 
 export type Video = {
   videoId: number;
@@ -25,6 +26,7 @@ const axiosInstance = axios.create({
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  setNoStoreHeaders(res);
   const rawCategoryId = Array.isArray(req.query.categoryId) ? req.query.categoryId[0] : req.query.categoryId;
   const categoryId = typeof rawCategoryId === 'string' ? rawCategoryId.trim() : '';
 

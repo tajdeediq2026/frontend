@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
 import { getBackendBaseUrl } from '@/lib/backend-url';
+import { setNoStoreHeaders } from './_utils/cache';
 
 type NavigationLink = {
     id: number;
@@ -30,6 +31,7 @@ const axiosInstance = axios.create({
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    setNoStoreHeaders(res);
     try {
         console.log('Fetching categories from:', CATEGORIES_API_URL);
         

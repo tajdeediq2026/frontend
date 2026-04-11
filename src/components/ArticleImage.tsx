@@ -49,7 +49,7 @@ const ArticleImage: React.FC<ArticleImageProps> = ({
           <Image
             src={normalizedSrc}
             alt={alt}
-            className={`absolute inset-0 w-full h-full z-20 ${className || 'object-cover'}`}
+            className={`absolute inset-0 w-full h-full ${className || 'object-cover'}`}
             fill
             sizes="100vw"
             onError={() => {

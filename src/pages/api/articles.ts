@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
 import { getBackendBaseUrl } from '@/lib/backend-url';
+import { setNoStoreHeaders } from './_utils/cache';
 
 export type Article = {
     id: string;
@@ -27,6 +28,7 @@ const axiosInstance = axios.create({
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    setNoStoreHeaders(res);
     const { categoryId, excludeId } = req.query;
 
     console.log('Articles API - categoryId:', categoryId);

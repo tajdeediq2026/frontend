@@ -21,7 +21,8 @@ const CategoryRootPage = () => {
     const fetchCategory = async () => {
       try {
         setLoading(true);
-        const categoriesResponse = await fetch('/api/categories-with-articles');
+        const requestStamp = Date.now();
+        const categoriesResponse = await fetch(`/api/categories-with-articles?_=${requestStamp}`, { cache: 'no-store' });
         if (!categoriesResponse.ok) {
           throw new Error('فشل في تحميل التصنيفات');
         }
@@ -32,7 +33,7 @@ const CategoryRootPage = () => {
           return;
         }
         if (categorySlug === 'opinions') {
-          const opinionsResponse = await fetch(`/api/author-articles?opinionsCategoryId=${foundCategory.id}`);
+          const opinionsResponse = await fetch(`/api/author-articles?opinionsCategoryId=${foundCategory.id}&_=${requestStamp}`, { cache: 'no-store' });
           if (!opinionsResponse.ok) {
             throw new Error('فشل في تحميل مقالات الرأي');
           }
