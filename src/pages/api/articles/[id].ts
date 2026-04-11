@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import https from 'https';
 import { getBackendBaseUrl } from '@/lib/backend-url';
-import { setNoStoreHeaders } from '../_utils/cache';
+import { setNoStoreHeaders } from '../../../lib/apiCache';
 
 export type Article = {
     id: string;

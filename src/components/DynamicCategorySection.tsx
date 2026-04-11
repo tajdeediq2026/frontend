@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { getImageUrl } from "../app/lib/imageUtils";
 import { useArticleRotation } from "../hooks/useArticleRotation";
@@ -166,17 +166,7 @@ interface BigArticleCardProps {
 }
 
 const BigArticleCard = ({ article, categorySlug, isAnimating = false, isNew = false }: BigArticleCardProps) => {
-  const [imgSrc, setImgSrc] = useState<string>('');
-  
-  useEffect(() => {
-    if (!article.imagePath) {
-      setImgSrc('');
-      return;
-    }
-
-    const imageUrl = getImageUrl(article.imagePath);
-    setImgSrc(imageUrl ?? '');
-  }, [article.imagePath]);
+  const imgSrc = article.imagePath ? (getImageUrl(article.imagePath) ?? '') : '';
 
   if (!imgSrc) {
     return (
@@ -230,17 +220,7 @@ interface SmallArticleCardProps {
 }
 
 const SmallArticleCard = ({ article, categorySlug, isAnimating = false, position = '' }: SmallArticleCardProps) => {
-  const [imgSrc, setImgSrc] = useState<string>('');
-  
-  useEffect(() => {
-    if (!article.imagePath) {
-      setImgSrc('');
-      return;
-    }
-
-    const imageUrl = getImageUrl(article.imagePath);
-    setImgSrc(imageUrl ?? '');
-  }, [article.imagePath]);
+  const imgSrc = article.imagePath ? (getImageUrl(article.imagePath) ?? '') : '';
 
   if (!imgSrc) {
     return (
