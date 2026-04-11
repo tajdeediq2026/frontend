@@ -225,7 +225,7 @@ const ArticleLayout = ({
             showFullContent={true}
             showTags={true}
             showMetadata={true}
-            showCategoryBadge={true}
+            showCategoryBadge={false}
           />
         </div>
 

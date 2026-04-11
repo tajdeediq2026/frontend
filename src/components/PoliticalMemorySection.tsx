@@ -144,7 +144,9 @@ const PoliticalMemorySection = ({ className = "" }: PoliticalMemorySectionProps)
       <div className="flex items-center justify-center mb-4">
         <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
         <div className="text-primaryOther mx-2">
-          <p className="text-xs sm:text-sm font-semibold">الذاكرة السياسية</p>
+          <Link href="/political-memory" className="text-xs sm:text-sm font-semibold hover:underline">
+            الذاكرة السياسية
+          </Link>
         </div>
         <div className="w-12 sm:w-16 h-1 bg-primaryOther border-0 rounded-sm"></div>
       </div>
