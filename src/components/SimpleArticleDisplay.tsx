@@ -37,10 +37,13 @@ const SimpleArticleDisplay = ({
 
   const formatDate = (dateInput: string | Date) => {
     const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-    return date.toLocaleDateString('ar-SA', {
+    return date.toLocaleString('ar-SA-u-hc-h23', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
       numberingSystem: 'arab'
     });
   };
@@ -89,9 +92,9 @@ const SimpleArticleDisplay = ({
         {showMetadata && (
           <div className="text-sm text-gray-500 mb-4 flex items-center gap-2">
             <TimeIcon className="text-lg w-5 h-5" />
-            {article.updatedDate !== article.createdDate && (
-              <span>آخر تحديث: {formatDate(article.updatedDate)}</span>
-            )}
+            <span>تاريخ النشر: {formatDate(article.createdDate)}</span>
+            <span className="text-gray-300">|</span>
+            <span>آخر تحديث: {formatDate(article.updatedDate)}</span>
           </div>
         )}
 

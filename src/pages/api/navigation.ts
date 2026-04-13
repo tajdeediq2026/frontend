@@ -44,13 +44,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Transform backend data to NavigationLink format
         const dynamicLinks: NavigationLink[] = categories
             .filter((category: CategoryResponse) => category.isActivated) // Only include activated categories
-            .map((category: CategoryResponse) => ({
-                id: category.id,
-                name: category.name,
-                categorySlug: category.categorySlug,
-                isActivated: category.isActivated,
-                href: `/${category.categorySlug}` // Route to category pages
-            }));
+            .map((category: CategoryResponse) => {
+                const normalizedName = (category.name || '').trim();
+                const normalizedSlug = (category.categorySlug || '').trim().toLowerCase();
+                const isCaricatureCategory =
+                    normalizedName === 'كاريكاتير' ||
+                    normalizedSlug === 'caricature' ||
+                    normalizedSlug === 'caricatures';
+
+                return {
+                    id: category.id,
+                    name: category.name,
+                    categorySlug: category.categorySlug,
+                    isActivated: category.isActivated,
+                    href: isCaricatureCategory ? '/caricatures' : `/${category.categorySlug}`,
+                };
+            });
 
         // Combine: Home first, then dynamic categories
         const allLinks = [

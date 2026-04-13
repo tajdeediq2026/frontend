@@ -43,8 +43,8 @@ export default function CaricaturesPage() {
           .filter((item) => item.isPublished === true)
           .sort(
             (a, b) =>
-              new Date(b.updatedDate).getTime() -
-              new Date(a.updatedDate).getTime()
+              new Date(b.createdDate || b.updatedDate).getTime() -
+              new Date(a.createdDate || a.updatedDate).getTime()
           );
 
         setItems(published);
@@ -86,7 +86,7 @@ export default function CaricaturesPage() {
       )}
 
       {!loading && !error && items.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item) => (
             <Link key={item.caricatureId} href={`/caricatures/${item.caricatureId}`} className="block">
               <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow overflow-hidden h-full flex flex-col">
@@ -108,14 +108,9 @@ export default function CaricaturesPage() {
                     {item.caricatureTitle || "كاريكاتير"}
                   </h2>
 
-                  {item.caricatureContent && (
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-3 flex-1">
-                      {item.caricatureContent}
-                    </p>
-                  )}
-
-                  <div className="text-xs text-gray-400 mt-auto">
-                    {new Date(item.updatedDate).toLocaleDateString("ar-EG", {
+                  <div className="text-xs text-gray-500 mt-auto">
+                    <span className="font-medium">تاريخ النشر: </span>
+                    {new Date(item.createdDate || item.updatedDate).toLocaleDateString("ar-EG", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
