@@ -106,7 +106,7 @@ export default function RootLayout({
       {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > */}
-      <body className={`${alJazeera.variable} ${alJazeeraBold.variable} ${alJazeeraRegular.variable} ${alJazeeraLight.variable}`}>
+      <body className={`${alJazeera.variable} ${alJazeeraBold.variable} ${alJazeeraRegular.variable} ${alJazeeraLight.variable}`} suppressHydrationWarning>
         <Up />
         <Navigation />
         <BreakingNews />
