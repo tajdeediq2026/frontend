@@ -8,6 +8,7 @@ import LastNews from './LastNews';
 import EditorChoice from './EditorChoice';
 import PoliticalMemorySection from './PoliticalMemorySection';
 import OpinionsSidebar from './OpinionsSidebar';
+import CaricatureSection from './CaricatureSection';
 
 const Middle: React.FC = () => {
   const [categories, setCategories] = useState<AllCategories[]>([]);
@@ -118,6 +119,9 @@ const Middle: React.FC = () => {
               <LastNews />
               <div className="mt-6">
                 <PoliticalMemorySection />
+              </div>
+              <div className="mt-6">
+                <CaricatureSection />
               </div>
               <div className="mt-6">
                 <EditorChoice />
